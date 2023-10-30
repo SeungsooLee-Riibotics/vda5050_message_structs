@@ -1,0 +1,146 @@
+stages:
+  - Images
+  - Build
+  - Test
+  - Code-Analysis
+
+include:
+  - '.gitlab/docker/sonar/version.yml'
+
+# This before_script sets up a key access for the private vda5050_message_structs repository
+default:
+  image: ubuntu:jammy
+
+build_sonar_image:
+  stage: Images
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.1-debug
+    entrypoint: [""]
+  dependencies: []
+  before_script: []
+  script:
+    - echo "Building sonar image with tag ${SONAR_IMAGE_TAG}..."
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - '/kaniko/executor
+      --context "${CI_PROJECT_DIR}/.gitlab/docker/sonar"
+      --dockerfile "${CI_PROJECT_DIR}/.gitlab/docker/sonar/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/sonar:${SONAR_IMAGE_TAG}"'
+  only:
+    refs:
+      - branches
+    changes:
+      - '.gitlab/docker/sonar/version.yml'
+
+build_debug:
+  stage: Build
+  image: ${CI_REGISTRY_IMAGE}/sonar:${SONAR_IMAGE_TAG}
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_DEPTH: 0
+  script:
+    - mkdir -p sonar_build_wrapper
+    - pushd sonar_build_wrapper
+    - wget $SONAR_HOST_URL/static/cpp/build-wrapper-linux-x86.zip
+    - unzip -j build-wrapper-linux-x86.zip
+    - popd
+    - mkdir build_wrapper_output_directory
+    - /usr/bin/cmake --no-warn-unused-cli
+      -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++-14
+      -DBUILD_TESTING:BOOL=ON
+      -DVDA5050_MESSAGE_STRUCTS_COVERAGE:BOOL=ON
+      -B build
+      -G "Ninja"
+    - ./sonar_build_wrapper/build-wrapper-linux-x86-64
+      --out-dir build_wrapper_output_directory
+        /usr/bin/cmake
+        --build build
+        --config Debug
+        --target vda5050_message_structs_test
+  artifacts:
+    when: always
+    paths:
+      - build/
+      - build_wrapper_output_directory/
+    expire_in: 1 week
+  tags:
+    - docker
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
+      allow_failure: false
+    # "Default clause" meaning: in all other cases
+    - when: on_success
+      allow_failure: true
+
+unittest:
+  stage: Test
+  image: ${CI_REGISTRY_IMAGE}/sonar:${SONAR_IMAGE_TAG}
+  needs:
+    - job: build_debug
+      artifacts: true
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_DEPTH: 0
+  script:
+    - /usr/bin/cmake
+      --build build
+      --config Debug
+      --target ccov-show-file-vda5050_message_structs_test
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - build/vda5050_message_structs_test.xml
+    paths:
+      - build/ccov/vda5050_message_structs_test.txt
+      - build_wrapper_output_directory/
+    expire_in: 1 week
+  tags:
+    - docker
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
+      allow_failure: false
+    # "Default clause" meaning: in all other cases
+    - when: on_success
+      allow_failure: true
+
+sonarqube:
+  stage: Code-Analysis
+  image: ${CI_REGISTRY_IMAGE}/sonar:${SONAR_IMAGE_TAG}
+  needs:
+    - job: unittest
+      artifacts: true
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_DEPTH: 0
+  script:
+    # Sonar does not work properly if there is no blame information, this ensures a complete history
+    - git fetch --unshallow || true
+    - sonar-scanner -X
+      -Dsonar.projectKey=odyn.navsim.vda5050_message_structs
+      -Dsonar.projectName=odyn.navsim.vda5050_message_structs
+      -Dsonar.cfamily.build-wrapper-output=build_wrapper_output_directory
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.login=$SONAR_TOKEN
+      -Dsonar.sourceEncoding=UTF-8
+      -Dsonar.cfamily.threads=1
+      -Dsonar.cfamily.cache.enabled=false
+      -Dsonar.cfamily.llvm-cov.reportPath=build/ccov/vda5050_message_structs_test.txt
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.sources=include,src
+      -Dsonar.tests=test
+      -Dsonar.verbose=true
+  rules:
+    # Sonar analysis must succeed (i.e. the quality gate must be passed) in main and MRs
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH) || $CI_MERGE_REQUEST_IID
+      allow_failure: false
+    # "Default clause" meaning: in all other cases
+    - when: on_success
+      allow_failure: true
+  tags:
+    - docker
+  cache:
+    key: "sonar-${CI_PROJECT_ID}"
+    paths:
+      - ".scannerwork"
+      - ".sonar"
