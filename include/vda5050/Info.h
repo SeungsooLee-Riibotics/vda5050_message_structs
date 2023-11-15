@@ -31,7 +31,7 @@ struct Info {
   std::optional<std::string> infoDescription;
 
   /// Debugging or visualization
-  InfoLevel infoLevel;
+  InfoLevel infoLevel = InfoLevel::DEBUG;
 
   bool operator==(const Info &other) const {
     if (infoType != other.infoType) return false;

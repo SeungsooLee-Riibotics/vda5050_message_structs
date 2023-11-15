@@ -43,7 +43,7 @@ struct State {
   /// Order Update Identification to identify that an order
   /// update has been accepted by the AGV. “0” if no previous
   /// orderUpdateId is available.
-  uint32_t orderUpdateId;
+  uint32_t orderUpdateId = 0;
 
   /// Unique ID of the zone set that the AGV currently uses for path
   /// planning. Must be the same as the one used in the order, otherwise
@@ -60,7 +60,7 @@ struct State {
   /// sequenceId of the last reached node or, if the AGV is
   /// currently on a node, sequenceId of current node.
   /// “0” if no lastNodeSequenceId is available.
-  uint32_t lastNodeSequenceId;
+  uint32_t lastNodeSequenceId = 0;
 
   /// Array of nodeStateObjects that need to be traversed for
   /// fulfilling the order (empty list if idle)
@@ -88,7 +88,7 @@ struct State {
   /// True: indicates that the AGV is driving and/or rotating. Other
   /// movements of the AGV (e.g. lift movements) are not included here.
   /// False: indicates that the AGV is neither driving nor rotating
-  bool driving;
+  bool driving = false;
 
   /// True: AGV is currently in a paused state, either because of the push
   /// of a physical button on the AGV or because of an instantAction.
@@ -121,7 +121,7 @@ struct State {
 
   /// Enum {automatic, semi-automatic, manual, service, teach-in}
   /// For additional information see chapter 6.11
-  OperatingMode operatingMode;
+  OperatingMode operatingMode = OperatingMode::AUTOMATIC;
 
   /// Array of error - objects. All active errors of the AGV
   /// should be in the list. An empty array indicates that the

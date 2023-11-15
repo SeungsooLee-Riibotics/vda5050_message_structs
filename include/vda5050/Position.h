@@ -13,13 +13,13 @@
 namespace vda5050 {
 struct Position {
   /// [m], x-position in AGV-coordinate. system
-  double x;
+  double x = 0.0;
 
   /// [m], y-position in AGV-coordinate. system
-  double y;
+  double y = 0.0;
 
   /// [rad], orientation of wheel in AGV-coordinate system Necessary for fixed wheels.
-  double theta;
+  double theta = 0.0;
 
   ///
   ///\brief Equality operator

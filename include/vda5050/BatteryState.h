@@ -18,7 +18,7 @@ namespace vda5050 {
 struct BatteryState {
   /// [%] State of Charge: if AGV only provides values for good or bad
   /// battery levels, these will be indicated as 20% (bad) and 80% (good).
-  double batteryCharge;
+  double batteryCharge = 0.0;
 
   /// [V] Battery Voltage
   std::optional<double> batteryVoltage;
@@ -29,7 +29,7 @@ struct BatteryState {
 
   /// True: charging in progress
   /// False: AGV is currently not charging
-  bool charging;
+  bool charging = false;
 
   /// [m] Range: [0.0 ... ∞)
   /// Estimated reach with current Stage of Charge

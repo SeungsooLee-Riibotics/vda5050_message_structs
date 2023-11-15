@@ -29,14 +29,14 @@ struct Node {
   /// once within one orderId. The variable sequenceId runs
   /// across all nodes and edges of the same order and is reset
   /// when a new orderId is issued.
-  uint32_t sequenceId;
+  uint32_t sequenceId = 0;
 
   /// Additional information on the node
   std::optional<std::string> nodeDescription;
 
   /// True indicates that the node is part of the base.
   /// False indicates that the node is part of the horizon.
-  bool released;
+  bool released = false;
 
   /// Node position Optional for vehicle-types that do not
   /// require the node position (e.g. line-guided vehicles).

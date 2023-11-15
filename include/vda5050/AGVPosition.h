@@ -18,7 +18,7 @@ namespace vda5050 {
 struct AGVPosition {
   /// False: position is not initialized
   /// True: position is initialized
-  bool positionInitialized;
+  bool positionInitialized = false;
 
   /// Range: [0.0 … 1.0] Describes the quality of the localization and
   /// therefore, can be used e. g. by SLAMAGVs to describe how accurate the
@@ -37,18 +37,18 @@ struct AGVPosition {
 
   /// [m] X - position on the map in reference to the map coordinate system.
   ///  Precision is up to the specific implementation
-  double x;
+  double x = 0.0;
 
   /// [m] Y - position on the map in reference to the map coordinate system.
   /// Precision is up to the specific implementation.
-  double y;
+  double y = 0.0;
 
   /// [rad] Range : [-Pi … Pi] Orientation of the AGV. string mapId
   /// Unique identification of the map in which the position is referenced.
   /// Each map has the same origin of coordinates. When an AGV uses
   /// an elevator, e.g. leading from a departure floor to a target floor and
   /// spawn in the related lift node on the map of the target floor.
-  double theta;
+  double theta = 0.0;
 
   /// Unique identification of the map in which the position is referenced
   std::string mapId;

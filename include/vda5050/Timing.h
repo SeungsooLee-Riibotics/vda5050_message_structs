@@ -15,10 +15,10 @@ namespace vda5050 {
 
 struct Timing {
   /// [s], Minimum interval sending order messages to the AGV.
-  float minOrderInterval;
+  float minOrderInterval = 0.0;
 
   /// [s], Minimum interval for sending state-messages.
-  float minStateInterval;
+  float minStateInterval = 0.0;
 
   /// [s], Default interval for sending state-messages,
   /// if not defined, the default value from the main document is used.

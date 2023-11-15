@@ -20,7 +20,7 @@ namespace vda5050 {
 struct HeaderVDA5050 {
   /// header ID of the message. The headerId is defined per topic and incremented by
   /// 1 with each sent(but not necessarily received) message.
-  uint32_t headerId;
+  uint32_t headerId = 0;
 
   /// Timestamp after ISO8601 in the format YYYY-MM-DDTHH:mm:ss.ssZ
   /// (e.g.“2017-04-15T11:40:03.12Z”)

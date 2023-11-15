@@ -30,14 +30,14 @@ struct Edge {
   /// simplify order updates.The variable sequenceId runs across
   /// all nodes and edges of the same order and is reset when a new
   /// orderId is issued.
-  uint32_t sequenceId;
+  uint32_t sequenceId = 0;
 
   /// Additional information on the edge
   std::optional<std::string> edgeDescription;
 
   /// True indicates that the edge is part of the base.
   /// False indicates that the edge is part of the horizon.
-  bool released;
+  bool released = false;
 
   /// nodeID of startNode
   std::string startNodeId;

@@ -38,7 +38,7 @@ struct Error {
   /// fatal: AGV is not in running condition, user
   ///        intervention required (e.g. laser scanner
   ///        is contaminated)
-  ErrorLevel errorLevel;
+  ErrorLevel errorLevel = ErrorLevel::WARNING;
 
   bool operator==(const Error &other) const {
     if (errorType != other.errorType) return false;

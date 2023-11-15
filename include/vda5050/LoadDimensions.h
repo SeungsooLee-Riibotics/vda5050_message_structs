@@ -16,10 +16,10 @@ namespace vda5050 {
 /// Dimensions of the load’s bounding box in meters.
 struct LoadDimensions {
   /// [m] Absolute length of the load’s bounding box.
-  double length;
+  double length = 0.0;
 
   /// [m] Absolute width of the load’s bounding box.
-  double width;
+  double width = 0.0;
 
   /// [m] Absolute height of the load’s bounding box.
   /// Optional: Set value only if known.

@@ -16,10 +16,10 @@ namespace vda5050 {
 /// ControlPoint describing a trajectory (NURBS)
 struct ControlPoint {
   /// X coordinate described in the world coordinate system.
-  double x;
+  double x = 0.0;
 
   /// Y coordinate described in the world coordinate system.
-  double y;
+  double y = 0.0;
 
   /// [rad] Range: [-π ... π]
   /// Orientation of the AGV on this position of the curve. The orientation is in
@@ -30,7 +30,7 @@ struct ControlPoint {
   /// Range : (0 ... ∞)
   /// The weight with which this control point pulls on the curve. When not defined,
   /// the default will be 1.0.
-  double weight;
+  double weight = 1.0;
 
   ///
   ///\brief Equality operator

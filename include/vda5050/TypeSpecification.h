@@ -38,7 +38,7 @@ struct TypeSpecification {
   std::string agvClass;
 
   /// [kg], Maximum loadable mass.
-  double maxLoadMass;
+  double maxLoadMass = 0.0;
 
   /// Simplified description of localization type.
   /// Example values:

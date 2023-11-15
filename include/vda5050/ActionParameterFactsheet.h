@@ -22,7 +22,7 @@ struct ActionParameterFactsheet {
 
   /// Data type of Value, possible data types are: BOOL, NUMBER, INTEGER, FLOAT, STRING, OBJECT,
   /// ARRAY.
-  ValueDataType valueDataType;
+  ValueDataType valueDataType = ValueDataType::OBJECT;
 
   /// Free-form text: description of the parameter.
   std::optional<std::string> description;

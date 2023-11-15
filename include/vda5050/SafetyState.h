@@ -17,12 +17,12 @@ namespace vda5050 {
 /// VD(M)A 5050 SafetyState
 struct SafetyState {
   /// Emegerncy-Stop status
-  EStop eStop;
+  EStop eStop = EStop::NONE;
 
   /// Protective field violation
   /// True: field is violated
   /// False: field is not violated
-  bool fieldViolation;
+  bool fieldViolation = false;
 
   ///
   ///\brief Equality operator

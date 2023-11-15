@@ -26,7 +26,7 @@ struct Connection {
   /// CONNECTIONBROKEN: The connection between AGV and
   ///                   broker has unexpectedly ended.
   ///                   (used in e.g. MQTT Last-Will-Message)
-  ConnectionState connectionState;
+  ConnectionState connectionState = ConnectionState::OFFLINE;
 
   ///
   ///\brief Equality operator

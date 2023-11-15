@@ -24,14 +24,14 @@ struct EdgeState {
 
   /// sequenceId to differentiate between multiple edges with
   /// the same edgeId
-  uint32_t sequenceId;
+  uint32_t sequenceId = 0;
 
   /// Additional information on the edge
   std::optional<std::string> edgeDescription;
 
   /// True indicates that the edge is part of the base.
   /// False indicates that the edge is part of the horizon.
-  bool released;
+  bool released = false;
 
   /// The trajectory is to be communicated as a NURBS and is defined
   /// in chapter 6.4 Trajectory segments are from the point where

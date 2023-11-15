@@ -19,21 +19,21 @@ namespace vda5050 {
 
 struct WheelDefinition {
   /// Wheel type DRIVE, CASTER, FIXED, MECANUM.
-  WheelType type;
+  WheelType type = WheelType::DRIVE;
 
   /// "true": wheel is actively driven (de: angetrieben).
-  bool isActiveDriven;
+  bool isActiveDriven = false;
 
   /// "true": wheel is actively steered (de: aktiv gelenkt).
-  bool isActiveSteered;
+  bool isActiveSteered = false;
 
   Position position;
 
   /// [m], nominal diameter of wheel.
-  double diameter;
+  double diameter = false;
 
   /// [m], nominal width of wheel.
-  double width;
+  double width = false;
 
   /// [m], nominal displacement of the wheel’s center to the rotation point (necessary for caster
   /// wheels). If the parameter is not defined, it is assumed to be 0.

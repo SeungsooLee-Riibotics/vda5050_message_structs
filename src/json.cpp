@@ -1057,102 +1057,102 @@ void from_json(const json &j, MaxStringLens &d) {
 
 void to_json(json &j, const MaxArrayLens &d) {
   if (d.orderNodes.has_value()) {
-    j["orderNodes"] = *d.orderNodes;
+    j["order.nodes"] = *d.orderNodes;
   }
   if (d.orderEdges.has_value()) {
-    j["orderEdges"] = *d.orderEdges;
+    j["order.edges"] = *d.orderEdges;
   }
   if (d.nodeActions.has_value()) {
-    j["nodeActions"] = *d.nodeActions;
+    j["node.actions"] = *d.nodeActions;
   }
   if (d.edgeActions.has_value()) {
-    j["edgeActions"] = *d.edgeActions;
+    j["edge.actions"] = *d.edgeActions;
   }
   if (d.actionActionsParameters.has_value()) {
-    j["actionActionsParameters"] = *d.actionActionsParameters;
+    j["action.actionsParameters"] = *d.actionActionsParameters;
   }
   if (d.instantActions.has_value()) {
-    j["instantActions"] = *d.instantActions;
+    j["instant.actions"] = *d.instantActions;
   }
   if (d.trajectoryKnotVector.has_value()) {
-    j["trajectoryKnotVector"] = *d.trajectoryKnotVector;
+    j["trajectory.knotVector"] = *d.trajectoryKnotVector;
   }
   if (d.trajectoryControlPoints.has_value()) {
-    j["trajectoryControlPoints"] = *d.trajectoryControlPoints;
+    j["trajectory.controlPoints"] = *d.trajectoryControlPoints;
   }
   if (d.stateNodeStates.has_value()) {
-    j["stateNodeStates"] = *d.stateNodeStates;
+    j["state.nodeStates"] = *d.stateNodeStates;
   }
   if (d.stateEdgeStates.has_value()) {
-    j["stateEdgeStates"] = *d.stateEdgeStates;
+    j["state.edgeStates"] = *d.stateEdgeStates;
   }
   if (d.stateLoads.has_value()) {
-    j["stateLoads"] = *d.stateLoads;
+    j["state.loads"] = *d.stateLoads;
   }
   if (d.stateActionStates.has_value()) {
-    j["stateActionStates"] = *d.stateActionStates;
+    j["state.actionStates"] = *d.stateActionStates;
   }
   if (d.stateErrors.has_value()) {
-    j["stateErrors"] = *d.stateErrors;
+    j["state.errors"] = *d.stateErrors;
   }
   if (d.stateInformations.has_value()) {
-    j["stateInformations"] = *d.stateInformations;
+    j["state.informations"] = *d.stateInformations;
   }
   if (d.errorErrorReferences.has_value()) {
-    j["errorErrorReferences"] = *d.errorErrorReferences;
+    j["error.errorReferences"] = *d.errorErrorReferences;
   }
   if (d.informationsInfoReferences.has_value()) {
-    j["informationsInfoReferences"] = *d.informationsInfoReferences;
+    j["informations.infoReferences"] = *d.informationsInfoReferences;
   }
 }
 void from_json(const json &j, MaxArrayLens &d) {
-  if (j.contains("orderNodes")) {
-    d.orderNodes = j.at("orderNodes");
+  if (j.contains("order.nodes")) {
+    d.orderNodes = j.at("order.nodes");
   }
-  if (j.contains("orderEdges")) {
-    d.orderEdges = j.at("orderEdges");
+  if (j.contains("order.edges")) {
+    d.orderEdges = j.at("order.edges");
   }
-  if (j.contains("nodeActions")) {
-    d.nodeActions = j.at("nodeActions");
+  if (j.contains("node.actions")) {
+    d.nodeActions = j.at("node.actions");
   }
-  if (j.contains("edgeActions")) {
-    d.edgeActions = j.at("edgeActions");
+  if (j.contains("edge.actions")) {
+    d.edgeActions = j.at("edge.actions");
   }
-  if (j.contains("actionActionsParameters")) {
-    d.actionActionsParameters = j.at("actionActionsParameters");
+  if (j.contains("action.actionsParameters")) {
+    d.actionActionsParameters = j.at("action.actionsParameters");
   }
-  if (j.contains("instantActions")) {
-    d.instantActions = j.at("instantActions");
+  if (j.contains("instant.actions")) {
+    d.instantActions = j.at("instant.actions");
   }
-  if (j.contains("trajectoryKnotVector")) {
-    d.trajectoryKnotVector = j.at("trajectoryKnotVector");
+  if (j.contains("trajectory.knotVector")) {
+    d.trajectoryKnotVector = j.at("trajectory.knotVector");
   }
-  if (j.contains("trajectoryControlPoints")) {
-    d.trajectoryControlPoints = j.at("trajectoryControlPoints");
+  if (j.contains("trajectory.controlPoints")) {
+    d.trajectoryControlPoints = j.at("trajectory.controlPoints");
   }
-  if (j.contains("stateNodeStates")) {
-    d.stateNodeStates = j.at("stateNodeStates");
+  if (j.contains("state.nodeStates")) {
+    d.stateNodeStates = j.at("state.nodeStates");
   }
-  if (j.contains("stateEdgeStates")) {
-    d.stateEdgeStates = j.at("stateEdgeStates");
+  if (j.contains("state.edgeStates")) {
+    d.stateEdgeStates = j.at("state.edgeStates");
   }
-  if (j.contains("stateLoads")) {
-    d.stateLoads = j.at("stateLoads");
+  if (j.contains("state.loads")) {
+    d.stateLoads = j.at("state.loads");
   }
-  if (j.contains("stateActionStates")) {
-    d.stateActionStates = j.at("stateActionStates");
+  if (j.contains("state.actionStates")) {
+    d.stateActionStates = j.at("state.actionStates");
   }
-  if (j.contains("stateErrors")) {
-    d.stateErrors = j.at("stateErrors");
+  if (j.contains("state.errors")) {
+    d.stateErrors = j.at("state.errors");
   }
-  if (j.contains("stateInformations")) {
-    d.stateInformations = j.at("stateInformations");
+  if (j.contains("state.informations")) {
+    d.stateInformations = j.at("state.informations");
   }
-  if (j.contains("errorErrorReferences")) {
-    d.errorErrorReferences = j.at("errorErrorReferences");
+  if (j.contains("error.errorReferences")) {
+    d.errorErrorReferences = j.at("error.errorReferences");
   }
-  if (j.contains("informationsInfoReferences")) {
-    d.informationsInfoReferences = j.at("informationsInfoReferences");
+  if (j.contains("informations.infoReferences")) {
+    d.informationsInfoReferences = j.at("informations.infoReferences");
   }
 }
 

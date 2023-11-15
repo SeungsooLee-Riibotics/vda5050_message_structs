@@ -13,10 +13,10 @@
 namespace vda5050 {
 struct PolygonPoint {
   /// [m], x-position of polygon-point.
-  double x;
+  double x = 0.0;
 
   /// [m], y-position of polygon-point.
-  double y;
+  double y = 0.0;
 
   ///
   ///\brief Equality operator

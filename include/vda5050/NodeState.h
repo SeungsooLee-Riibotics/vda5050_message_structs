@@ -23,7 +23,7 @@ struct NodeState {
   std::string nodeId;
 
   /// sequenceId to discern multiple nodes with same nodeId
-  uint32_t sequenceId;
+  uint32_t sequenceId = 0;
 
   /// Additional information on the node
   std::optional<std::string> nodeDescription;
@@ -35,7 +35,7 @@ struct NodeState {
 
   /// true indicates that the node is part of the base.
   /// false indicates that the node is part of the horizon.
-  bool released;
+  bool released = false;
 
   ///
   ///\brief Equality operator

@@ -22,7 +22,7 @@ struct Trajectory {
   /// points that influence any given point on the curve.
   /// Increasing the degree increases continuity.
   /// If not defined, the default value is 1.
-  double degree;
+  double degree = 1.0;
 
   /// Range : [0.0 … 1.0] Sequence of parameter values that
   /// determines where and how the control points affect

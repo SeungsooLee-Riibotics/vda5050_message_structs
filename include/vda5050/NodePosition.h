@@ -17,11 +17,11 @@ namespace vda5050 {
 struct NodePosition {
   /// [m] X-position on the map in reference to the
   ///     world coordinate system
-  double x;
+  double x = 0.0;
 
   /// [m] Y-position on the map in reference to the
   ///     world coordinate system
-  double y;
+  double y = 0.0;
 
   /// [rad] Range : [-PI... PI]
   /// Orientation of the AGV on the node. Optional: vehicle can plan

@@ -23,7 +23,7 @@ struct OptionalParameter {
   /// Type of support for the optional parameter, the following values are possible:
   /// SUPPORTED: optional parameter is supported like specified.
   /// REQUIRED: optional parameter is required for proper AGV-operation.
-  Support support;
+  Support support = Support::SUPPORTED;
 
   // Free-form text: description of optional parameter, e.g.:
   // - Reason, why the optional parameter ‘direction’ is necessary for this AGV-type and which

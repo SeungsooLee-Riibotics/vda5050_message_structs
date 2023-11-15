@@ -14,28 +14,28 @@ namespace vda5050 {
 
 struct PhysicalParameters {
   /// [m/s] Minimal controlled continuous speed of the AGV.
-  double speedMin;
+  double speedMin = 0.0;
 
   /// [m/s] Maximum speed of the AGV.
-  double speedMax;
+  double speedMax = 0.0;
 
   /// [m/s²] Maximum acceleration with maximum load.
-  double accelerationMax;
+  double accelerationMax = 0.0;
 
   /// [m/s²] Maximum deceleration with maximum load.
-  double decelerationMax;
+  double decelerationMax = 0.0;
 
   /// [m] Minimum height of AGV.
-  double heightMin;
+  double heightMin = 0.0;
 
   /// [m] Maximum height of AGV.
-  double heightMax;
+  double heightMax = 0.0;
 
   /// [m] Width of AGV.
-  double width;
+  double width = 0.0;
 
   /// [m] Length of AGV.
-  double length;
+  double length = 0.0;
 
   ///
   ///\brief Equality operator

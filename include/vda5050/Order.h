@@ -32,7 +32,7 @@ struct Order {
   /// orderUpdate identification. Is unique per orderId. If an order
   /// update is rejected, this field is to be passed in the rejection
   /// message
-  uint32_t orderUpdateId;
+  uint32_t orderUpdateId = 0;
 
   /// Unique identifier of the zone set that the AGV has to use for
   /// navigation or that was used by MC for planning.

@@ -33,7 +33,7 @@ struct Action {
   std::optional<std::string> actionDescription;
 
   /// NONE, SOFT, HARD
-  BlockingType blockingType;
+  BlockingType blockingType = BlockingType::NONE;
 
   /// Array of actionParameter objects for the indicated
   /// action e.g.deviceId, loadId, external Triggers.

@@ -32,7 +32,7 @@ struct ActionState {
   std::optional<std::string> actionDescription;
 
   /// The current progress of the action
-  ActionStatus actionStatus;
+  ActionStatus actionStatus = ActionStatus::WAITING;
 
   /// Description of the result, e.g. the result of a RFID-read.
   /// Errors will be transmitted in errors. Examples for results are

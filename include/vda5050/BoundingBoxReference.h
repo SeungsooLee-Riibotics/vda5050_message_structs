@@ -18,13 +18,13 @@ namespace vda5050 {
 /// the AGV’s coordinate system.
 struct BoundingBoxReference {
   /// x-coordinate of the point of reference.
-  double x;
+  double x = 0.0;
 
   /// y-coordinate of the point of reference.
-  double y;
+  double y = 0.0;
 
   /// z-coordinate of the point of reference.
-  double z;
+  double z = 0.0;
 
   /// Orientation of the loads bounding box. Important for tugger trains etc.
   std::optional<double> theta;
