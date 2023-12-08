@@ -5,6 +5,11 @@
 // SPDX-License-Identifier: OLFL-1.3
 //
 
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+
+#include "vda5050/AgvFactsheet.h"
 #include "vda5050/Connection.h"
 #include "vda5050/Envelope2d.h"
 #include "vda5050/InstantActions.h"
@@ -12,15 +17,10 @@
 #include "vda5050/PolygonPoint.h"
 #include "vda5050/State.h"
 #include "vda5050/Visualization.h"
-#include "vda5050/AgvFactsheet.h"
-
-#include <ctime>
-#include <iomanip>
-#include <sstream>
 
 namespace vda5050 {
 
-constexpr const char * k_iso8601_fmt = "%Y-%m-%dT%H:%M:%SZ";
+constexpr const char *k_iso8601_fmt = "%Y-%m-%dT%H:%M:%SZ";
 
 void to_json(json &j, const HeaderVDA5050 &d) {
   j["headerId"] = d.headerId;
@@ -29,7 +29,17 @@ void to_json(json &j, const HeaderVDA5050 &d) {
   auto tt = std::chrono::system_clock::to_time_t(d.timestamp);
   std::stringstream ss;
   std::tm tm = {};
-  ss << std::put_time(gmtime_r(&tt, &tm), k_iso8601_fmt);
+
+  // Convert tt to tm
+#if VDA5050_MESSAGE_STRUCTS_HAS_GMTIME_S
+  auto err = gmtime_s(&tm, &tt);
+#elif VDA5050_MESSAGE_STRUCTS_HAS_GMTIME_R
+  gmtime_r(&tt, &tm);
+#else
+#error "No gmtime_s or gmtime_r available!"
+#endif
+
+  ss << std::put_time(&tm, k_iso8601_fmt);
   j["timestamp"] = ss.str();
 
   j["version"] = d.version;
@@ -46,7 +56,15 @@ void from_json(const json &j, HeaderVDA5050 &d) {
   std::stringstream ss(timestamp_str);
   std::tm tm = {};
   ss >> std::get_time(&tm, k_iso8601_fmt);
+
+  // Convert tm to timestamp
+#if VDA5050_MESSAGE_STRUCTS_HAS_TIMEGM
   d.timestamp = timestampT::clock::from_time_t(timegm(&tm));
+#elif VDA5050_MESSAGE_STRUCTS_HAS_MKGMTIME
+  d.timestamp = timestampT::clock::from_time_t(_mkgmtime(&tm));
+#else
+#error "No timegm or _mkgmtime available!"
+#endif
 
   d.version = j.at("version");
   d.manufacturer = j.at("manufacturer");
@@ -823,7 +841,7 @@ void from_json(const json &j, State &d) {
   }
 }
 
-void to_json(json &j, const TypeSpecification &d){
+void to_json(json &j, const TypeSpecification &d) {
   j["seriesName"] = d.seriesName;
   if (d.seriesDescription.has_value()) {
     j["seriesDescription"] = *d.seriesDescription;
@@ -834,7 +852,7 @@ void to_json(json &j, const TypeSpecification &d){
   j["localizationTypes"] = d.localizationTypes;
   j["navigationTypes"] = d.navigationTypes;
 }
-void from_json(const json &j, TypeSpecification &d){
+void from_json(const json &j, TypeSpecification &d) {
   d.seriesName = j.at("seriesName");
   if (j.contains("seriesDescription")) {
     d.seriesDescription = j.at("seriesDescription");
@@ -870,7 +888,7 @@ void from_json(const json &j, ProtocolFeatures &d) {
   d.agvActions = j.at("agvActions").get<std::vector<AgvAction>>();
 }
 
-void to_json(json &j, const PhysicalParameters &d){
+void to_json(json &j, const PhysicalParameters &d) {
   j["speedMin"] = d.speedMin;
   j["speedMax"] = d.speedMax;
   j["accelerationMax"] = d.accelerationMax;
@@ -880,7 +898,7 @@ void to_json(json &j, const PhysicalParameters &d){
   j["width"] = d.width;
   j["length"] = d.length;
 }
-void from_json(const json &j, PhysicalParameters &d){
+void from_json(const json &j, PhysicalParameters &d) {
   d.speedMin = j.at("speedMin");
   d.speedMax = j.at("speedMax");
   d.accelerationMax = j.at("accelerationMax");
@@ -1261,7 +1279,7 @@ void from_json(const json &j, LoadSet &d) {
   }
 }
 
-void to_json(json &j, const Timing &d){
+void to_json(json &j, const Timing &d) {
   j["minOrderInterval"] = d.minOrderInterval;
   j["minStateInterval"] = d.minStateInterval;
   if (d.defaultStateInterval.has_value()) {
@@ -1271,7 +1289,7 @@ void to_json(json &j, const Timing &d){
     j["visualizationInterval"] = *d.visualizationInterval;
   }
 }
-void from_json(const json &j, Timing &d){
+void from_json(const json &j, Timing &d) {
   d.minOrderInterval = j.at("minOrderInterval");
   d.minStateInterval = j.at("minStateInterval");
   if (j.contains("defaultStateInterval")) {
@@ -1282,14 +1300,14 @@ void from_json(const json &j, Timing &d){
   }
 }
 
-void to_json(json &j, const Envelope2d &d){
+void to_json(json &j, const Envelope2d &d) {
   j["set"] = d.set;
   j["polygonPoints"] = d.polygonPoints;
   if (d.description.has_value()) {
     j["description"] = *d.description;
   }
 }
-void from_json(const json &j, Envelope2d &d){
+void from_json(const json &j, Envelope2d &d) {
   d.set = j.at("set");
   d.polygonPoints = j.at("polygonPoints").get<std::vector<PolygonPoint>>();
   if (j.contains("description")) {
@@ -1297,7 +1315,7 @@ void from_json(const json &j, Envelope2d &d){
   }
 }
 
-void to_json(json &j, const Envelope3d &d){
+void to_json(json &j, const Envelope3d &d) {
   j["set"] = d.set;
   j["format"] = d.format;
   j["data"] = d.data;
@@ -1308,7 +1326,7 @@ void to_json(json &j, const Envelope3d &d){
     j["description"] = *d.description;
   }
 }
-void from_json(const json &j, Envelope3d &d){
+void from_json(const json &j, Envelope3d &d) {
   d.set = j.at("set");
   d.format = j.at("format");
   d.data = j.at("data");
@@ -1482,7 +1500,7 @@ void from_json(const json &j, Support &d) {
     d = vda5050::Support::SUPPORTED;
   } else if (str == "REQUIRED") {
     d = vda5050::Support::REQUIRED;
-  } 
+  }
 }
 
 void to_json(json &j, const ActionScope &d) {

@@ -43,6 +43,9 @@ else()
   )
 endif()
 
+# Check for platform compatibility
+include(cmake/platform.cmake)
+
 set(VDA5050_MESSAGE_STRUCTS_SOURCES
   src/json.cpp
 )
@@ -54,6 +57,7 @@ target_include_directories(vda5050_message_structs-static PUBLIC
 )
 target_compile_features(vda5050_message_structs-static PUBLIC cxx_std_17)
 target_link_libraries(vda5050_message_structs-static PUBLIC nlohmann_json::nlohmann_json)
+target_compile_definitions(vda5050_message_structs-static PRIVATE ${VDA5050_MESSAGE_STRUCTS_PLATFORM_DEFINITIONS})
 
 add_library(vda5050_message_structs SHARED ${VDA5050_MESSAGE_STRUCTS_SOURCES})
 set_target_properties(vda5050_message_structs PROPERTIES
@@ -66,6 +70,7 @@ target_include_directories(vda5050_message_structs PUBLIC
 )
 target_compile_features(vda5050_message_structs PUBLIC cxx_std_17)
 target_link_libraries(vda5050_message_structs PUBLIC nlohmann_json::nlohmann_json)
+target_compile_definitions(vda5050_message_structs PRIVATE ${VDA5050_MESSAGE_STRUCTS_PLATFORM_DEFINITIONS})
 
 # include tests
 include(CTest)

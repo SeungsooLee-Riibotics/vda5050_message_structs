@@ -65,8 +65,14 @@ generate();
 template <typename String>
 typename std::enable_if_t<std::is_same_v<std::string, String>, String> generate();
 
+template <typename Int8>
+typename std::enable_if_t<std::is_same_v<Int8, int8_t> || std::is_same_v<Int8, uint8_t>, Int8>
+generate();
+
 template <typename Integer>
-typename std::enable_if_t<std::is_integral_v<Integer> && !std::is_same_v<Integer, bool>, Integer>
+typename std::enable_if_t<std::is_integral_v<Integer> && !std::is_same_v<Integer, int8_t> &&
+                              !std::is_same_v<Integer, uint8_t> && !std::is_same_v<Integer, bool>,
+                          Integer>
 generate();
 
 template <typename Float>

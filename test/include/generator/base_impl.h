@@ -26,8 +26,18 @@ typename std::enable_if_t<std::is_same_v<std::string, String>, String> generate(
   return gen;
 }
 
+template <typename Int8>
+typename std::enable_if_t<std::is_same_v<Int8, int8_t> || std::is_same_v<Int8, uint8_t>, Int8>
+generate() {
+  static std::uniform_int_distribution dist((short)std::numeric_limits<Int8>::min(),
+                                            (short)std::numeric_limits<Int8>::max());
+  return static_cast<Int8>(dist(RNG::get()));
+}
+
 template <typename Integer>
-typename std::enable_if_t<std::is_integral_v<Integer> && !std::is_same_v<Integer, bool>, Integer>
+typename std::enable_if_t<std::is_integral_v<Integer> && !std::is_same_v<Integer, int8_t> &&
+                              !std::is_same_v<Integer, uint8_t> && !std::is_same_v<Integer, bool>,
+                          Integer>
 generate() {
   static std::uniform_int_distribution dist(std::numeric_limits<Integer>::min(),
                                             std::numeric_limits<Integer>::max());
@@ -70,7 +80,7 @@ template <typename Timestamp>
 typename std::enable_if_t<std::is_same_v<Timestamp, std::chrono::system_clock::time_point>,
                           Timestamp>
 generate() {
-  return std::chrono::system_clock::time_point(std::chrono::seconds(generate<uint64_t>()));
+  return std::chrono::system_clock::time_point(std::chrono::seconds(generate<uint32_t>()));
 }
 
 template <typename T> void generate_to(T &to) { to = generate<T>(); }
