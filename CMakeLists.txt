@@ -20,14 +20,14 @@ if(CMAKE_GENERATOR MATCHES "Ninja")
 endif()
 
 project(vda5050_message_structs
-  VERSION 2.0.0.2
+  VERSION 2.0.0.3
   DESCRIPTION "This Project contains C++ structs representing the all VDA5050 message objects"
   LANGUAGES CXX)
 
 # declare CPM
 include(cmake/CPM.cmake)
 
-set(LIBVDA5050PP_NLOHMANN_JSON_VERSION "3.11.2" CACHE STRING "Overwrite nlohmann_json version")
+set(LIBVDA5050PP_NLOHMANN_JSON_VERSION "3.11.3" CACHE STRING "Overwrite nlohmann_json version")
 find_package(nlohmann_json ${LIBVDA5050PP_NLOHMANN_JSON_VERSION} QUIET)
 
 if(nlohmann_json_FOUND)
@@ -37,7 +37,7 @@ else()
   CPMAddPackage(
     NAME nlohmann_json
     VERSION ${LIBVDA5050PP_NLOHMANN_JSON_VERSION}
-    GITHUB_REPOSITORY ArthurSonzogni/nlohmann_json_cmake_fetchcontent
+    GITHUB_REPOSITORY nlohmann/json
     OPTIONS
     "JSON_BuildTests OFF"
   )
