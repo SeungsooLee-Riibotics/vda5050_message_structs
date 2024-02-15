@@ -12,7 +12,7 @@
 
 namespace vda5050 {
 
-enum class WheelType { DRIVE, CASTER, FIXED, MEGANUM };
+enum class WheelType { DRIVE, CASTER, FIXED, MECANUM };
 
 using json = nlohmann::json;
 void to_json(json &j, const WheelType &d);

@@ -967,8 +967,8 @@ void to_json(json &j, const WheelDefinition &d) {
   if (d.centerDisplacement.has_value()) {
     j["centerDisplacement"] = *d.centerDisplacement;
   }
-  if (d.constrains.has_value()) {
-    j["constrains"] = *d.constrains;
+  if (d.constraints.has_value()) {
+    j["constraints"] = *d.constraints;
   }
 }
 void from_json(const json &j, WheelDefinition &d) {
@@ -981,8 +981,8 @@ void from_json(const json &j, WheelDefinition &d) {
   if (j.contains("centerDisplacement")) {
     d.centerDisplacement = j.at("centerDisplacement");
   }
-  if (j.contains("constrains")) {
-    d.constrains = j.at("constrains");
+  if (j.contains("constraints")) {
+    d.constraints = j.at("constraints");
   }
 }
 
@@ -1538,8 +1538,8 @@ void to_json(json &j, const WheelType &d) {
     case vda5050::WheelType::FIXED:
       j = "FIXED";
       break;
-    case vda5050::WheelType::MEGANUM:
-      j = "MEGANUM";
+    case vda5050::WheelType::MECANUM:
+      j = "MECANUM";
       break;
   }
 }
@@ -1551,8 +1551,8 @@ void from_json(const json &j, WheelType &d) {
     d = vda5050::WheelType::CASTER;
   } else if (str == "FIXED") {
     d = vda5050::WheelType::FIXED;
-  } else if (str == "MEGANUM") {
-    d = vda5050::WheelType::MEGANUM;
+  } else if (str == "MECANUM") {
+    d = vda5050::WheelType::MECANUM;
   }
 }
 

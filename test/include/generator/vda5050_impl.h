@@ -766,7 +766,7 @@ generate() {
   vda5050::WheelDefinition gen;
 
   generate_to(gen.centerDisplacement);
-  generate_to(gen.constrains);
+  generate_to(gen.constraints);
   generate_to(gen.diameter);
   generate_to(gen.isActiveDriven);
   generate_to(gen.isActiveSteered);

@@ -40,7 +40,7 @@ struct WheelDefinition {
   std::optional<double> centerDisplacement;
 
   /// Free-form text: can be used by the manufacturer to define constraints.
-  std::optional<std::string> constrains;
+  std::optional<std::string> constraints;
 
   ///
   ///\brief Equality operator
@@ -56,7 +56,7 @@ struct WheelDefinition {
     if (this->diameter != other.diameter) return false;
     if (this->width != other.width) return false;
     if (this->centerDisplacement != other.centerDisplacement) return false;
-    if (this->constrains != other.constrains) return false;
+    if (this->constraints != other.constraints) return false;
 
     return true;
   }
