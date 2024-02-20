@@ -31,7 +31,7 @@ set(LIBVDA5050PP_NLOHMANN_JSON_VERSION "3.11.3" CACHE STRING "Overwrite nlohmann
 find_package(nlohmann_json ${LIBVDA5050PP_NLOHMANN_JSON_VERSION} QUIET)
 
 if(nlohmann_json_FOUND)
-  message(STATUS "Found nlohman_json installation.")
+  message(STATUS "Found nlohman_json installation with version ${nlohmann_json_VERSION}")
 else()
   set(JSON_Install ON)
   CPMAddPackage(
@@ -41,6 +41,7 @@ else()
     OPTIONS
     "JSON_BuildTests OFF"
   )
+  set(nlohmann_json_VERSION ${LIBVDA5050PP_NLOHMANN_JSON_VERSION})
 endif()
 
 # Check for platform compatibility

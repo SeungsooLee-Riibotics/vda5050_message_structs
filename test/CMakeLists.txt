@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: OLFL-1.3
 # 
 
-set(LIBVDA5050PP_CATCH2_VERSION "2.13.10" CACHE STRING "Overwrite catch2 version")
+set(LIBVDA5050PP_CATCH2_VERSION "3.4.0" CACHE STRING "Overwrite catch2 version")
 find_package(Catch2 ${LIBVDA5050PP_CATCH2_VERSION} QUIET)
 
 if(Catch2_FOUND)
@@ -19,7 +19,7 @@ else()
 endif()
 
 if(Catch2_SOURCE_DIR)
-  list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
+  list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
 endif()
 
 include(Catch)
@@ -27,14 +27,13 @@ include(Catch)
 
 add_executable(vda5050_message_structs_test
   ${PROJECT_SOURCE_DIR}/test/src/test.cpp
-  ${PROJECT_SOURCE_DIR}/test/src/main.cpp
 )
 target_include_directories(vda5050_message_structs_test PRIVATE
   ${PROJECT_SOURCE_DIR}/test/include
 )
 target_link_libraries(vda5050_message_structs_test PRIVATE
   vda5050_message_structs-static
-  Catch2::Catch2
+  Catch2::Catch2WithMain
 )
 
 # Let CTest discover the Catch2 test cases
