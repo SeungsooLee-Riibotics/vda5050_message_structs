@@ -131,7 +131,7 @@ struct State {
   /// Array of info-objects.An empty array indicates that the AGV
   /// has no information. This should only be used for visualization
   /// or debugging – it must not be used for logic in master control.
-  std::vector<Info> informations;
+  std::vector<Info> information;
 
   /// Contains all safetyrelated information.
   SafetyState safetyState;
@@ -162,7 +162,7 @@ struct State {
     if (this->batteryState != other.batteryState) return false;
     if (this->operatingMode != other.operatingMode) return false;
     if (this->errors != other.errors) return false;
-    if (this->informations != other.informations) return false;
+    if (this->information != other.information) return false;
     if (this->safetyState != other.safetyState) return false;
 
     return true;

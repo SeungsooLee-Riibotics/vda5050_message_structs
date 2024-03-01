@@ -8,6 +8,7 @@
 #ifndef INCLUDE_VDA5050_POSITION_H
 #define INCLUDE_VDA5050_POSITION_H
 
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace vda5050 {
@@ -19,7 +20,7 @@ struct Position {
   double y = 0.0;
 
   /// [rad], orientation of wheel in AGV-coordinate system Necessary for fixed wheels.
-  double theta = 0.0;
+  std::optional<double> theta;
 
   ///
   ///\brief Equality operator

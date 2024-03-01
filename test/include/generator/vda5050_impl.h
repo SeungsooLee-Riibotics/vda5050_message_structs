@@ -664,7 +664,7 @@ typename std::enable_if_t<std::is_same_v<State, vda5050::State>, State> generate
   generate_to(gen.edgeStates);
   generate_to(gen.errors);
   generate_to(gen.header);
-  generate_to(gen.informations);
+  generate_to(gen.information);
   generate_to(gen.lastNodeId);
   generate_to(gen.lastNodeSequenceId);
   generate_to(gen.loads);

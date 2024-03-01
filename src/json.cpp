@@ -778,7 +778,7 @@ void to_json(json &j, const State &d) {
   j["driving"] = d.driving;
   j["edgeStates"] = d.edgeStates;
   j["errors"] = d.errors;
-  j["informations"] = d.informations;
+  j["information"] = d.information;
   j["lastNodeId"] = d.lastNodeId;
   j["lastNodeSequenceId"] = d.lastNodeSequenceId;
   if (d.loads.has_value()) {
@@ -816,7 +816,7 @@ void from_json(const json &j, State &d) {
   d.driving = j.at("driving");
   d.edgeStates = j.at("edgeStates").get<std::vector<EdgeState>>();
   d.errors = j.at("errors").get<std::vector<Error>>();
-  d.informations = j.at("informations").get<std::vector<Info>>();
+  d.information = j.at("information").get<std::vector<Info>>();
   d.lastNodeId = j.at("lastNodeId");
   d.lastNodeSequenceId = j.at("lastNodeSequenceId");
   if (j.contains("loads")) {
@@ -1379,12 +1379,16 @@ void from_json(const json &j, PolygonPoint &d) {
 void to_json(json &j, const Position &d) {
   j["x"] = d.x;
   j["y"] = d.y;
-  j["theta"] = d.theta;
+  if (d.theta.has_value()) {
+    j["theta"] = *d.theta;
+  }
 }
 void from_json(const json &j, Position &d) {
   d.x = j.at("x");
   d.y = j.at("y");
-  d.theta = j.at("theta");
+  if (j.contains("theta")) {
+    d.theta = j.at("theta");
+  }
 }
 
 void to_json(json &j, const AgvFactsheet &d) {
