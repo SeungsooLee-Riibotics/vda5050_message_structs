@@ -1446,7 +1446,7 @@ void from_json(const json &j, EStop &d) {
 
 void to_json(json &j, const ValueDataType &d) {
   switch (d) {
-    case vda5050::ValueDataType::BOOL:
+    case vda5050::ValueDataType::BOOLEAN:
       j = "BOOL";
       break;
     case vda5050::ValueDataType::NUMBER:
@@ -1472,7 +1472,7 @@ void to_json(json &j, const ValueDataType &d) {
 void from_json(const json &j, ValueDataType &d) {
   auto str = j.get<std::string>();
   if (str == "BOOL") {
-    d = vda5050::ValueDataType::BOOL;
+    d = vda5050::ValueDataType::BOOLEAN;
   } else if (str == "NUMBER") {
     d = vda5050::ValueDataType::NUMBER;
   } else if (str == "INTEGER") {

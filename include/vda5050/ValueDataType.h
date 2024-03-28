@@ -11,7 +11,7 @@
 #include <nlohmann/json.hpp>
 
 namespace vda5050 {
-enum class ValueDataType { BOOL, NUMBER, INTEGER, FLOAT, STRING, OBJECT, ARRAY };
+enum class ValueDataType { BOOLEAN, NUMBER, INTEGER, FLOAT, STRING, OBJECT, ARRAY };
 
 using json = nlohmann::json;
 void to_json(json &j, const ValueDataType &d);
