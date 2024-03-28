@@ -9,10 +9,12 @@
 #ifndef INCLUDE_VDA5050_VISUALIZATION_H_
 #define INCLUDE_VDA5050_VISUALIZATION_H_
 
-#include "vda5050/AGVPosition.h"
-#include "Header_vda5050.h"
-#include "vda5050/Velocity.h"
 #include <nlohmann/json.hpp>
+#include <optional>
+
+#include "Header_vda5050.h"
+#include "vda5050/AGVPosition.h"
+#include "vda5050/Velocity.h"
 
 namespace vda5050 {
 /// VD(M)A 5050 Visualization message
@@ -20,14 +22,14 @@ struct Visualization {
   /// Message header
   HeaderVDA5050 header;
   /// The AGV's position
-  AGVPosition agvPosition;
+  std::optional<AGVPosition> agvPosition;
   /// The AGV's velocity in vehicle coordinates
-  Velocity velocity;
+  std::optional<Velocity> velocity;
 
   inline bool operator==(const Visualization &other) const {
     if (header != other.header) return false;
     if (agvPosition != other.agvPosition) return false;
-    if (velocity != other.velocity) return false;
+    if (velocity.value_or(Velocity{}) != other.velocity.value_or(Velocity{})) return false;
     return true;
   }
   inline bool operator!=(const Visualization &other) const { return !(this->operator==(other)); }

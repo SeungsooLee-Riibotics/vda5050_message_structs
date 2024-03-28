@@ -165,13 +165,21 @@ void from_json(const json &j, Velocity &d) {
 
 void to_json(json &j, const Visualization &d) {
   to_json(j, d.header);
-  j["agvPosition"] = d.agvPosition;
-  j["velocity"] = d.velocity;
+  if (d.agvPosition.has_value()) {
+    j["agvPosition"] = *d.agvPosition;
+  }
+  if (d.velocity.has_value() && *d.velocity != Velocity{}) {
+    j["velocity"] = *d.velocity;
+  }
 }
 void from_json(const json &j, Visualization &d) {
   from_json(j, d.header);
-  j.at("agvPosition").get_to(d.agvPosition);
-  j.at("velocity").get_to(d.velocity);
+  if (j.contains("agvPosition")) {
+    d.agvPosition = j.at("agvPosition");
+  }
+  if (j.contains("velocity")) {
+    d.velocity = j.at("velocity");
+  }
 }
 
 void to_json(json &j, const ActionParameter &d) {
@@ -782,7 +790,8 @@ void to_json(json &j, const State &d) {
   j["lastNodeId"] = d.lastNodeId;
   j["lastNodeSequenceId"] = d.lastNodeSequenceId;
   if (d.loads.has_value()) {
-    j["loads"] = *d.loads;
+    j["loads"] =
+        *d.loads;  // Keep possible "null" loads since they could represent an arbitrary load
   }
   if (d.newBaseRequest.has_value()) {
     j["newBaseRequest"] = *d.newBaseRequest;
@@ -1339,8 +1348,9 @@ void from_json(const json &j, Envelope3d &d) {
 }
 
 void to_json(json &j, const ProtocolLimits &d) {
-  j["maxStringLens"] = d.maxStringLens;
-  j["maxArrayLens"] = d.maxArrayLens;
+  j["maxStringLens"] = d.maxStringLens;  // Can be null if the object is {}, not setting it is no
+                                         // option, since this is a required field
+  j["maxArrayLens"] = d.maxArrayLens;    // See comment above
   j["timing"] = d.timing;
 }
 void from_json(const json &j, ProtocolLimits &d) {
@@ -1397,8 +1407,9 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["physicalParameters"] = d.physicalParameters;
   j["protocolLimits"] = d.protocolLimits;
   j["agvProtocolFeatures"] = d.agvProtocolFeatures;
-  j["agvGeometry"] = d.agvGeometry;
-  j["loadSpecification"] = d.loadSpecification;
+  j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
+                                     // option, since this is a required field
+  j["loadSpecification"] = d.loadSpecification;  // See comment above
   j["localizationParameters"] = d.localizationParameters;
 }
 void from_json(const json &j, AgvFactsheet &d) {
