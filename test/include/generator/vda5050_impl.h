@@ -373,6 +373,24 @@ generate() {
   return gen;
 }
 
+template <typename Json>
+typename std::enable_if_t<std::is_same_v<Json, vda5050::json>, Json> generate() {
+  vda5050::json gen;
+
+  gen["int"] = generate<int>();
+  gen["string"] = generate<std::string>();
+  gen["bool"] = generate<bool>();
+  gen["array"] = generate<std::vector<int>>();
+
+  // Arbitrary nesting
+  static std::bernoulli_distribution dist(0.66);
+  if (dist(RNG::get())) {
+    gen["object"] = generate<vda5050::json>();
+  }
+
+  return gen;
+}
+
 template <typename Load>
 typename std::enable_if_t<std::is_same_v<Load, vda5050::Load>, Load> generate() {
   vda5050::Load gen;

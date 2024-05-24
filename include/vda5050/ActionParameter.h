@@ -13,6 +13,9 @@
 #include <string>
 
 namespace vda5050 {
+
+using json = nlohmann::json;
+
 /// A key-value-pair
 /// The value will be deserialized to an actual datatype
 struct ActionParameter {
@@ -20,7 +23,7 @@ struct ActionParameter {
   std::string key;
 
   /// Value of the action key
-  std::string value;
+  json value;
 
   ///
   ///\brief Check if equal to another ActionParameter
@@ -47,7 +50,6 @@ struct ActionParameter {
   }
 };
 
-using json = nlohmann::json;
 void to_json(json &j, const ActionParameter &d);
 void from_json(const json &j, ActionParameter &d);
 

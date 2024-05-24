@@ -130,6 +130,9 @@ template <typename InstantActions>
 typename std::enable_if_t<std::is_same_v<InstantActions, vda5050::InstantActions>, InstantActions>
 generate();
 
+template <typename Json>
+typename std::enable_if_t<std::is_same_v<Json, vda5050::json>, Json> generate();
+
 template <typename Load>
 typename std::enable_if_t<std::is_same_v<Load, vda5050::Load>, Load> generate();
 
