@@ -84,9 +84,6 @@ template <typename ControlPoint>
 typename std::enable_if_t<std::is_same_v<ControlPoint, vda5050::ControlPoint>, ControlPoint>
 generate();
 
-template <typename Data>
-typename std::enable_if_t<std::is_same_v<Data, vda5050::Data>, Data> generate();
-
 template <typename Edge>
 typename std::enable_if_t<std::is_same_v<Edge, vda5050::Edge>, Edge> generate();
 

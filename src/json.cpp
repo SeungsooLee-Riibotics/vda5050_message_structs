@@ -302,17 +302,11 @@ void from_json(const json &j, Node &d) {
 }
 
 void to_json(json &j, const ControlPoint &d) {
-  if (d.orientation.has_value()) {
-    j["orientation"] = *d.orientation;
-  }
   j["weight"] = d.weight;
   j["x"] = d.x;
   j["y"] = d.y;
 }
 void from_json(const json &j, ControlPoint &d) {
-  if (j.contains("orientation")) {
-    d.orientation = j.at("orientation");
-  }
   d.weight = j.at("weight");
   d.x = j.at("x");
   d.y = j.at("y");
@@ -786,7 +780,9 @@ void to_json(json &j, const State &d) {
   j["driving"] = d.driving;
   j["edgeStates"] = d.edgeStates;
   j["errors"] = d.errors;
-  j["information"] = d.information;
+  if (d.information.has_value()) {
+    j["information"] = *d.information;
+  }
   j["lastNodeId"] = d.lastNodeId;
   j["lastNodeSequenceId"] = d.lastNodeSequenceId;
   if (d.loads.has_value()) {
@@ -825,7 +821,9 @@ void from_json(const json &j, State &d) {
   d.driving = j.at("driving");
   d.edgeStates = j.at("edgeStates").get<std::vector<EdgeState>>();
   d.errors = j.at("errors").get<std::vector<Error>>();
-  d.information = j.at("information").get<std::vector<Info>>();
+  if (j.contains("information")) {
+    d.information = j.at("information").get<std::vector<Info>>();
+  }
   d.lastNodeId = j.at("lastNodeId");
   d.lastNodeSequenceId = j.at("lastNodeSequenceId");
   if (j.contains("loads")) {
@@ -1357,15 +1355,6 @@ void from_json(const json &j, ProtocolLimits &d) {
   d.maxStringLens = j.at("maxStringLens");
   d.maxArrayLens = j.at("maxArrayLens");
   d.timing = j.at("timing");
-}
-
-void to_json(json &j, const Data &d) {
-  j["type"] = d.type;
-  j["description"] = d.description;
-}
-void from_json(const json &j, Data &d) {
-  d.type = j.at("type");
-  d.description = j.at("description");
 }
 
 void to_json(json &j, const LocalizationParameters &d) {

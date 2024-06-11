@@ -201,20 +201,9 @@ typename std::enable_if_t<std::is_same_v<ControlPoint, vda5050::ControlPoint>, C
 generate() {
   vda5050::ControlPoint gen;
 
-  generate_to(gen.orientation);
   generate_to(gen.weight);
   generate_to(gen.x);
   generate_to(gen.y);
-
-  return gen;
-}
-
-template <typename Data>
-typename std::enable_if_t<std::is_same_v<Data, vda5050::Data>, Data> generate() {
-  vda5050::Data gen;
-
-  generate_to(gen.description);
-  generate_to(gen.type);
 
   return gen;
 }

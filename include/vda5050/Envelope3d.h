@@ -12,8 +12,6 @@
 #include <optional>
 #include <string>
 
-#include "vda5050/Data.h"
-
 namespace vda5050 {
 
 struct Envelope3d {
@@ -24,7 +22,7 @@ struct Envelope3d {
   std::string format;
 
   /// 3D-envelope curve data, format specified in 'format'.
-  Data data;
+  json data;
 
   /// Protocol and url-definition for downloading the 3D-envelope
   /// curve data, e.g. ftp://xxx.yyy.com/ac4dgvhoif5tghji.

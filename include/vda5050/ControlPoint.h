@@ -21,12 +21,6 @@ struct ControlPoint {
   /// Y coordinate described in the world coordinate system.
   double y = 0.0;
 
-  /// [rad] Range: [-π ... π]
-  /// Orientation of the AGV on this position of the curve. The orientation is in
-  /// world coordinates. When not defined the orientation of the AGV will be
-  /// tangential to the curve.
-  std::optional<double> orientation;
-
   /// Range : (0 ... ∞)
   /// The weight with which this control point pulls on the curve. When not defined,
   /// the default will be 1.0.
@@ -41,7 +35,6 @@ struct ControlPoint {
   inline bool operator==(const ControlPoint &other) const {
     if (this->x != other.x) return false;
     if (this->y != other.y) return false;
-    if (this->orientation != other.orientation) return false;
     if (this->weight != other.weight) return false;
 
     return true;

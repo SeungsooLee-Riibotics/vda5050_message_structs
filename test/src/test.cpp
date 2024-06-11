@@ -57,7 +57,6 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::Connection>();
   testSerialization<vda5050::ConnectionState>();
   testSerialization<vda5050::ControlPoint>();
-  testSerialization<vda5050::Data>();
   testSerialization<vda5050::Edge>();
   testSerialization<vda5050::EdgeState>();
   testSerialization<vda5050::Envelope2d>();
@@ -121,7 +120,6 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::Connection>();
   testEquality<vda5050::ConnectionState>();
   testEquality<vda5050::ControlPoint>();
-  testEquality<vda5050::Data>();
   testEquality<vda5050::Edge>();
   testEquality<vda5050::EdgeState>();
   testEquality<vda5050::Envelope2d>();
