@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "vda5050/Action.h"
+#include "vda5050/Corridor.h"
 #include "vda5050/OrientationType.h"
 #include "vda5050/Trajectory.h"
 
@@ -105,6 +106,10 @@ struct Edge {
   /// their speed before reaching a stop position.
   std::optional<double> length;
 
+  /// Definition of boundaries in which a vehicle can deviate from
+  /// its trajectory, e.g., to avoid obstacles.
+  std::optional<Corridor> corridor;
+
   /// Array of actions to be executed on the edge.
   /// An action triggered by an edge will only be active for the
   /// time that the AGV is traversing the edge which triggered
@@ -120,6 +125,7 @@ struct Edge {
   ///
   inline bool operator==(const Edge &other) const {
     if (this->actions != other.actions) return false;
+    if (this->corridor != other.corridor) return false;
     if (this->direction != other.direction) return false;
     if (this->edgeDescription != other.edgeDescription) return false;
     if (this->edgeId != other.edgeId) return false;

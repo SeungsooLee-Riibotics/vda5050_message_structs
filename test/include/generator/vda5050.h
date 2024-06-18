@@ -84,6 +84,14 @@ template <typename ControlPoint>
 typename std::enable_if_t<std::is_same_v<ControlPoint, vda5050::ControlPoint>, ControlPoint>
 generate();
 
+template <typename Corridor>
+typename std::enable_if_t<std::is_same_v<Corridor, vda5050::Corridor>, Corridor> generate();
+
+template <typename CorridorRefPoint>
+typename std::enable_if_t<std::is_same_v<CorridorRefPoint, vda5050::CorridorRefPoint>,
+                          CorridorRefPoint>
+generate();
+
 template <typename Edge>
 typename std::enable_if_t<std::is_same_v<Edge, vda5050::Edge>, Edge> generate();
 
@@ -145,10 +153,11 @@ typename std::enable_if_t<std::is_same_v<LoadSpecification, vda5050::LoadSpecifi
                           LoadSpecification>
 generate();
 
-template <typename LocalizationParameters>
-typename std::enable_if_t<std::is_same_v<LocalizationParameters, vda5050::LocalizationParameters>,
-                          LocalizationParameters>
-generate();
+template <typename Map>
+typename std::enable_if_t<std::is_same_v<Map, vda5050::Map>, Map> generate();
+
+template <typename MapStatus>
+typename std::enable_if_t<std::is_same_v<MapStatus, vda5050::MapStatus>, MapStatus> generate();
 
 template <typename MaxArrayLens>
 typename std::enable_if_t<std::is_same_v<MaxArrayLens, vda5050::MaxArrayLens>, MaxArrayLens>
@@ -157,6 +166,9 @@ generate();
 template <typename MaxStringLens>
 typename std::enable_if_t<std::is_same_v<MaxStringLens, vda5050::MaxStringLens>, MaxStringLens>
 generate();
+
+template <typename Network>
+typename std::enable_if_t<std::is_same_v<Network, vda5050::Network>, Network> generate();
 
 template <typename Node>
 typename std::enable_if_t<std::is_same_v<Node, vda5050::Node>, Node> generate();
@@ -231,8 +243,16 @@ template <typename ValueDataType>
 typename std::enable_if_t<std::is_same_v<ValueDataType, vda5050::ValueDataType>, ValueDataType>
 generate();
 
+template <typename VehicleConfig>
+typename std::enable_if_t<std::is_same_v<VehicleConfig, vda5050::VehicleConfig>, VehicleConfig>
+generate();
+
 template <typename Velocity>
 typename std::enable_if_t<std::is_same_v<Velocity, vda5050::Velocity>, Velocity> generate();
+
+template <typename VersionInfo>
+typename std::enable_if_t<std::is_same_v<VersionInfo, vda5050::VersionInfo>, VersionInfo>
+generate();
 
 template <typename Visualization>
 typename std::enable_if_t<std::is_same_v<Visualization, vda5050::Visualization>, Visualization>

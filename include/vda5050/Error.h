@@ -32,6 +32,9 @@ struct Error {
   /// Error description
   std::optional<std::string> errorDescription;
 
+  /// Hint on how to approach or solve the reported error.
+  std::optional<std::string> errorHint;
+
   /// Enum {warning, fatal}
   /// warning: AGV is ready to start (e.g. maintenance
   ///          cycle expiration warning)
@@ -44,6 +47,7 @@ struct Error {
     if (errorType != other.errorType) return false;
     if (errorReferences != other.errorReferences) return false;
     if (errorDescription != other.errorDescription) return false;
+    if (errorHint != other.errorHint) return false;
     if (errorLevel != other.errorLevel) return false;
     return true;
   }

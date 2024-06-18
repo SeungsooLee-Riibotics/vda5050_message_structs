@@ -5,9 +5,8 @@
 // SPDX-License-Identifier: OLFL-1.3
 //
 
-
-#ifndef VDA5050_STATE_H_
-#define VDA5050_STATE_H_
+#ifndef INCLUDE_VDA5050_STATE_H_
+#define INCLUDE_VDA5050_STATE_H_
 
 #include <cstdint>
 #include <nlohmann/json.hpp>
@@ -23,6 +22,7 @@
 #include "vda5050/Error.h"
 #include "vda5050/Info.h"
 #include "vda5050/Load.h"
+#include "vda5050/Map.h"
 #include "vda5050/NodeState.h"
 #include "vda5050/OperatingMode.h"
 #include "vda5050/SafetyState.h"
@@ -33,6 +33,9 @@ namespace vda5050 {
 struct State {
   /// Message header
   HeaderVDA5050 header;
+
+  /// Array of map objects that are currently stored on the vehicle.
+  std::vector<Map> maps;
 
   /// Unique order identification of the current order or the
   /// previous finished order. The orderId is kept until a new
@@ -144,6 +147,7 @@ struct State {
   ///
   inline bool operator==(const State &other) const {
     if (this->header != other.header) return false;
+    if (this->maps != other.maps) return false;
     if (this->orderId != other.orderId) return false;
     if (this->orderUpdateId != other.orderUpdateId) return false;
     if (this->zoneSetId != other.zoneSetId) return false;
@@ -182,4 +186,4 @@ void to_json(json &j, const State &d);
 void from_json(const json &j, State &d);
 
 }  // namespace vda5050
-#endif  // VDA5050_STATE_H_
+#endif  // INCLUDE_VDA5050_STATE_H_

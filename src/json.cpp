@@ -323,6 +323,43 @@ void from_json(const json &j, Trajectory &d) {
   d.knotVector = j.at("knotVector").get<std::vector<double>>();
 }
 
+void to_json(json &j, const CorridorRefPoint &d) {
+  switch (d) {
+    case CorridorRefPoint::KINEMATICCENTER:
+      j = "KINEMATICCENTER";
+      break;
+    case CorridorRefPoint::CONTOUR:
+      j = "CONTOUR";
+      break;
+    default:
+      j = "UNKNOWN";
+      break;
+  }
+}
+void from_json(const json &j, CorridorRefPoint &d) {
+  auto str = j.get<std::string>();
+  if (str == "KINEMATICCENTER") {
+    d = CorridorRefPoint::KINEMATICCENTER;
+  } else if (str == "CONTOUR") {
+    d = CorridorRefPoint::CONTOUR;
+  }
+}
+
+void to_json(json &j, const Corridor &d) {
+  j["leftWidth"] = d.leftWidth;
+  j["rightWidth"] = d.rightWidth;
+  if (d.corridorRefPoint.has_value()) {
+    j["corridorRefPoint"] = *d.corridorRefPoint;
+  }
+}
+void from_json(const json &j, Corridor &d) {
+  d.leftWidth = j.at("leftWidth");
+  d.rightWidth = j.at("rightWidth");
+  if (j.contains("corridorRefPoint")) {
+    d.corridorRefPoint = j.at("corridorRefPoint");
+  }
+}
+
 void to_json(json &j, const Edge &d) {
   j["actions"] = d.actions;
   if (d.direction.has_value()) {
@@ -335,6 +372,9 @@ void to_json(json &j, const Edge &d) {
   j["endNodeId"] = d.endNodeId;
   if (d.length.has_value()) {
     j["length"] = *d.length;
+  }
+  if (d.corridor.has_value()) {
+    j["corridor"] = *d.corridor;
   }
   if (d.maxHeight.has_value()) {
     j["maxHeight"] = *d.maxHeight;
@@ -376,6 +416,9 @@ void from_json(const json &j, Edge &d) {
   d.endNodeId = j.at("endNodeId");
   if (j.contains("length")) {
     d.length = j.at("length");
+  }
+  if (j.contains("corridor")) {
+    d.corridor = j.at("corridor");
   }
   if (j.contains("maxHeight")) {
     d.maxHeight = j.at("maxHeight");
@@ -591,6 +634,9 @@ void to_json(json &j, const Error &d) {
   if (d.errorDescription.has_value()) {
     j["errorDescription"] = *d.errorDescription;
   }
+  if (d.errorHint.has_value()) {
+    j["errorHint"] = *d.errorHint;
+  }
   j["errorLevel"] = d.errorLevel;
   j["errorType"] = d.errorType;
   if (d.errorReferences.has_value()) {
@@ -623,6 +669,9 @@ void from_json(const json &j, ErrorLevel &d) {
 void from_json(const json &j, Error &d) {
   if (j.contains("errorDescription")) {
     d.errorDescription = j.at("errorDescription");
+  }
+  if (j.contains("errorHint")) {
+    d.errorHint = j.at("errorHint");
   }
   d.errorLevel = j.at("errorLevel");
   d.errorType = j.at("errorType");
@@ -767,6 +816,45 @@ void from_json(const json &j, SafetyState &d) {
   d.fieldViolation = j.at("fieldViolation");
 }
 
+void to_json(json &j, const MapStatus &d) {
+  switch (d) {
+    case MapStatus::DISABLED:
+      j = "DISABLED";
+      break;
+    case MapStatus::ENABLED:
+      j = "ENABLED";
+      break;
+    default:
+      j = "UNKNOWN";
+      break;
+  }
+}
+void from_json(const json &j, MapStatus &d) {
+  auto str = j.get<std::string>();
+  if (str == "DISABLED") {
+    d = MapStatus::DISABLED;
+  } else if (str == "ENABLED") {
+    d = MapStatus::ENABLED;
+  }
+}
+
+void to_json(json &j, const Map &d) {
+  j["mapId"] = d.mapId;
+  j["mapVersion"] = d.mapVersion;
+  if (d.mapDescription.has_value()) {
+    j["mapDescription"] = *d.mapDescription;
+  }
+  j["mapStatus"] = d.mapStatus;
+}
+void from_json(const json &j, Map &d) {
+  d.mapId = j.at("mapId");
+  d.mapVersion = j.at("mapVersion");
+  if (j.contains("mapDescription")) {
+    d.mapDescription = j.at("mapDescription");
+  }
+  d.mapStatus = j.at("mapStatus");
+}
+
 void to_json(json &j, const State &d) {
   to_json(j, d.header);
   j["actionStates"] = d.actionStates;
@@ -789,6 +877,7 @@ void to_json(json &j, const State &d) {
     j["loads"] =
         *d.loads;  // Keep possible "null" loads since they could represent an arbitrary load
   }
+  j["maps"] = d.maps;
   if (d.newBaseRequest.has_value()) {
     j["newBaseRequest"] = *d.newBaseRequest;
   }
@@ -829,6 +918,7 @@ void from_json(const json &j, State &d) {
   if (j.contains("loads")) {
     d.loads = j.at("loads").get<std::vector<Load>>();
   }
+  d.maps = j.at("maps");
   if (j.contains("newBaseRequest")) {
     d.newBaseRequest = j.at("newBaseRequest");
   }
@@ -898,6 +988,12 @@ void from_json(const json &j, ProtocolFeatures &d) {
 void to_json(json &j, const PhysicalParameters &d) {
   j["speedMin"] = d.speedMin;
   j["speedMax"] = d.speedMax;
+  if (d.angularSpeedMin.has_value()) {
+    j["angularSpeedMin"] = *d.angularSpeedMin;
+  }
+  if (d.angularSpeedMax.has_value()) {
+    j["angularSpeedMax"] = *d.angularSpeedMax;
+  }
   j["accelerationMax"] = d.accelerationMax;
   j["decelerationMax"] = d.decelerationMax;
   j["heightMin"] = d.heightMin;
@@ -908,12 +1004,79 @@ void to_json(json &j, const PhysicalParameters &d) {
 void from_json(const json &j, PhysicalParameters &d) {
   d.speedMin = j.at("speedMin");
   d.speedMax = j.at("speedMax");
+  if (j.contains("angularSpeedMin")) {
+    d.angularSpeedMin = j.at("angularSpeedMin");
+  }
+  if (j.contains("angularSpeedMax")) {
+    d.angularSpeedMax = j.at("angularSpeedMax");
+  }
   d.accelerationMax = j.at("accelerationMax");
   d.decelerationMax = j.at("decelerationMax");
   d.heightMin = j.at("heightMin");
   d.heightMax = j.at("heightMax");
   d.width = j.at("width");
   d.length = j.at("length");
+}
+
+void to_json(json &j, const Network &d) {
+  if (d.dnsServers.has_value()) {
+    j["dnsServers"] = *d.dnsServers;
+  }
+  if (d.ntpServers.has_value()) {
+    j["ntpServers"] = *d.ntpServers;
+  }
+  if (d.localIpAddress.has_value()) {
+    j["localIpAddress"] = *d.localIpAddress;
+  }
+  if (d.netmask.has_value()) {
+    j["netmask"] = *d.netmask;
+  }
+  if (d.defaultGateway.has_value()) {
+    j["defaultGateway"] = *d.defaultGateway;
+  }
+}
+void from_json(const json &j, Network &d) {
+  if (j.contains("dnsServers")) {
+    d.dnsServers = j.at("dnsServers");
+  }
+  if (j.contains("ntpServers")) {
+    d.ntpServers = j.at("ntpServers");
+  }
+  if (j.contains("localIpAddress")) {
+    d.localIpAddress = j.at("localIpAddress");
+  }
+  if (j.contains("netmask")) {
+    d.netmask = j.at("netmask");
+  }
+  if (j.contains("defaultGateway")) {
+    d.defaultGateway = j.at("defaultGateway");
+  }
+}
+
+void to_json(json &j, const VersionInfo &d) {
+  j["key"] = d.key;
+  j["value"] = d.value;
+}
+void from_json(const json &j, VersionInfo &d) {
+  d.key = j.at("key");
+  d.value = j.at("value");
+}
+
+void to_json(json &j, const VehicleConfig &d) {
+  if (d.versions.has_value()) {
+    j["versions"] = *d.versions;
+  }
+  if (d.network.has_value()) {
+    j["network"] = *d.network;
+  }
+}
+void from_json(const json &j, VehicleConfig &d) {
+  if (j.contains("versions")) {
+    d.versions = j.at("versions");
+  }
+  if (j.contains("network")) {
+    d.network = j.at("network");
+  }
 }
 
 void to_json(json &j, const ActionParameterFactsheet &d) {
@@ -949,6 +1112,9 @@ void to_json(json &j, const AgvAction &d) {
   if (d.resultDescription.has_value()) {
     j["resultDescription"] = *d.resultDescription;
   }
+  if (d.blockingTypes.has_value()) {
+    j["blockingTypes"] = *d.blockingTypes;
+  }
 }
 void from_json(const json &j, AgvAction &d) {
   d.actionType = j.at("actionType");
@@ -961,6 +1127,9 @@ void from_json(const json &j, AgvAction &d) {
   }
   if (j.contains("resultDescription")) {
     d.resultDescription = j.at("resultDescription");
+  }
+  if (j.contains("blockingTypes")) {
+    d.blockingTypes = j.at("blockingTypes").get<std::vector<BlockingType>>();
   }
 }
 
@@ -1357,15 +1526,6 @@ void from_json(const json &j, ProtocolLimits &d) {
   d.timing = j.at("timing");
 }
 
-void to_json(json &j, const LocalizationParameters &d) {
-  j["type"] = d.type;
-  j["description"] = d.description;
-}
-void from_json(const json &j, LocalizationParameters &d) {
-  d.type = j.at("type");
-  d.description = j.at("description");
-}
-
 void to_json(json &j, const PolygonPoint &d) {
   j["x"] = d.x;
   j["y"] = d.y;
@@ -1399,7 +1559,9 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
                                      // option, since this is a required field
   j["loadSpecification"] = d.loadSpecification;  // See comment above
-  j["localizationParameters"] = d.localizationParameters;
+  if (d.vehicleConfig.has_value()) {
+    j["vehicleConfig"] = *d.vehicleConfig;
+  }
 }
 void from_json(const json &j, AgvFactsheet &d) {
   from_json(j, d.header);
@@ -1409,7 +1571,9 @@ void from_json(const json &j, AgvFactsheet &d) {
   d.agvProtocolFeatures = j.at("agvProtocolFeatures");
   d.agvGeometry = j.at("agvGeometry");
   d.loadSpecification = j.at("loadSpecification");
-  d.localizationParameters = j.at("localizationParameters");
+  if (j.contains("vehicleConfig")) {
+    d.vehicleConfig = j.at("vehicleConfig");
+  }
 }
 
 void to_json(json &j, const EStop &d) {

@@ -18,22 +18,18 @@ namespace vda5050 {
 
 /// Points defining a spline. Theta allows holonomic vehicles to rotate along the trajecotry.
 struct Trajectory {
-  /// Range: [1 … infinity) Defines the number of control
-  /// points that influence any given point on the curve.
-  /// Increasing the degree increases continuity.
+  /// Range: [1 … float64.max]
+  /// Degree of the NURBS curve defining the trajectory.
   /// If not defined, the default value is 1.
   double degree = 1.0;
 
-  /// Range : [0.0 … 1.0] Sequence of parameter values that
-  /// determines where and how the control points affect
-  /// the NURBS curve.
-  /// knotVector has size of
-  /// number of control points + degree + 1.
+  /// Range: [0.0 ... 1.0]
+  /// Array of knot values of the NURBS.
+  /// knotVector has size of number of control points + degree + 1.
   std::vector<double> knotVector;
 
-  /// List of controlPoint objects defining the
-  /// control points of the nurbs, which includes
-  /// the beginning and end point.
+  /// Array of controlPoint objects defining the control points of the NURBS,
+  /// explicitly including the start and end point.
   std::vector<ControlPoint> controlPoints;
 
   ///

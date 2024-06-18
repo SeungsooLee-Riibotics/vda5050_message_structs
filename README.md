@@ -1,7 +1,7 @@
 # vda5050_message_structs
 
 This Project contains C++17 structs representing the all VDA5050 message objects.
-All structures were designed to match the VDA5050 v2.0.0 Interface for the communication
+All structures were designed to match the VDA5050 v2.1.0 Interface for the communication
 between automated guided vehicles (AGV) and a master control.
 
 ## (Optional) Installation

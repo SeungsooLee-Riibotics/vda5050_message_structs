@@ -9,6 +9,7 @@
 #define VDA5050_PHYSICALPARAMETERS_H_
 
 #include <nlohmann/json.hpp>
+#include <optional>
 
 namespace vda5050 {
 
@@ -18,6 +19,12 @@ struct PhysicalParameters {
 
   /// [m/s] Maximum speed of the AGV.
   double speedMax = 0.0;
+
+  /// [Rad/s] Minimal controlled continuous rotation speed of the AGV.
+  std::optional<double> angularSpeedMin;
+
+  /// [Rad/s] Maximum rotation speed of the AGV.
+  std::optional<double> angularSpeedMax;
 
   /// [m/s²] Maximum acceleration with maximum load.
   double accelerationMax = 0.0;
@@ -45,6 +52,8 @@ struct PhysicalParameters {
   ///
   inline bool operator==(const PhysicalParameters &other) const {
     if (this->accelerationMax != other.accelerationMax) return false;
+    if (this->angularSpeedMax != other.angularSpeedMax) return false;
+    if (this->angularSpeedMin != other.angularSpeedMin) return false;
     if (this->decelerationMax != other.decelerationMax) return false;
     if (this->heightMax != other.heightMax) return false;
     if (this->heightMin != other.heightMin) return false;

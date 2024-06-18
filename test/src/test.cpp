@@ -41,6 +41,7 @@ template <typename T> void testEquality(size_t num = 100) {
 
 TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][serialization]") {
   generator::RNG::seed(Catch::rngSeed());
+  testSerialization<vda5050::AGVPosition>();
   testSerialization<vda5050::Action>();
   testSerialization<vda5050::ActionParameter>();
   testSerialization<vda5050::ActionParameterFactsheet>();
@@ -50,13 +51,15 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::AgvAction>();
   testSerialization<vda5050::AgvFactsheet>();
   testSerialization<vda5050::AgvGeometry>();
-  testSerialization<vda5050::AGVPosition>();
   testSerialization<vda5050::BatteryState>();
   testSerialization<vda5050::BlockingType>();
   testSerialization<vda5050::BoundingBoxReference>();
   testSerialization<vda5050::Connection>();
   testSerialization<vda5050::ConnectionState>();
   testSerialization<vda5050::ControlPoint>();
+  testSerialization<vda5050::Corridor>();
+  testSerialization<vda5050::CorridorRefPoint>();
+  testSerialization<vda5050::EStop>();
   testSerialization<vda5050::Edge>();
   testSerialization<vda5050::EdgeState>();
   testSerialization<vda5050::Envelope2d>();
@@ -64,7 +67,6 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::Error>();
   testSerialization<vda5050::ErrorLevel>();
   testSerialization<vda5050::ErrorReference>();
-  testSerialization<vda5050::EStop>();
   testSerialization<vda5050::HeaderVDA5050>();
   testSerialization<vda5050::Info>();
   testSerialization<vda5050::InfoLevel>();
@@ -74,9 +76,11 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::LoadDimensions>();
   testSerialization<vda5050::LoadSet>();
   testSerialization<vda5050::LoadSpecification>();
-  testSerialization<vda5050::LocalizationParameters>();
+  testSerialization<vda5050::Map>();
+  testSerialization<vda5050::MapStatus>();
   testSerialization<vda5050::MaxArrayLens>();
   testSerialization<vda5050::MaxStringLens>();
+  testSerialization<vda5050::Network>();
   testSerialization<vda5050::Node>();
   testSerialization<vda5050::NodePosition>();
   testSerialization<vda5050::NodeState>();
@@ -96,7 +100,9 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::Trajectory>();
   testSerialization<vda5050::TypeSpecification>();
   testSerialization<vda5050::ValueDataType>();
+  testSerialization<vda5050::VehicleConfig>();
   testSerialization<vda5050::Velocity>();
+  testSerialization<vda5050::VersionInfo>();
   testSerialization<vda5050::Visualization>();
   testSerialization<vda5050::WheelDefinition>();
   testSerialization<vda5050::WheelType>();
@@ -104,6 +110,7 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
 
 TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equality]") {
   generator::RNG::seed(Catch::rngSeed());
+  testEquality<vda5050::AGVPosition>();
   testEquality<vda5050::Action>();
   testEquality<vda5050::ActionParameter>();
   testEquality<vda5050::ActionParameterFactsheet>();
@@ -113,13 +120,15 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::AgvAction>();
   testEquality<vda5050::AgvFactsheet>();
   testEquality<vda5050::AgvGeometry>();
-  testEquality<vda5050::AGVPosition>();
   testEquality<vda5050::BatteryState>();
   testEquality<vda5050::BlockingType>();
   testEquality<vda5050::BoundingBoxReference>();
   testEquality<vda5050::Connection>();
   testEquality<vda5050::ConnectionState>();
   testEquality<vda5050::ControlPoint>();
+  testEquality<vda5050::Corridor>();
+  testEquality<vda5050::CorridorRefPoint>();
+  testEquality<vda5050::EStop>();
   testEquality<vda5050::Edge>();
   testEquality<vda5050::EdgeState>();
   testEquality<vda5050::Envelope2d>();
@@ -127,7 +136,6 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::Error>();
   testEquality<vda5050::ErrorLevel>();
   testEquality<vda5050::ErrorReference>();
-  testEquality<vda5050::EStop>();
   testEquality<vda5050::HeaderVDA5050>();
   testEquality<vda5050::Info>();
   testEquality<vda5050::InfoLevel>();
@@ -137,9 +145,11 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::LoadDimensions>();
   testEquality<vda5050::LoadSet>();
   testEquality<vda5050::LoadSpecification>();
-  testEquality<vda5050::LocalizationParameters>();
+  testEquality<vda5050::Map>();
+  testEquality<vda5050::MapStatus>();
   testEquality<vda5050::MaxArrayLens>();
   testEquality<vda5050::MaxStringLens>();
+  testEquality<vda5050::Network>();
   testEquality<vda5050::Node>();
   testEquality<vda5050::NodePosition>();
   testEquality<vda5050::NodeState>();
@@ -159,7 +169,9 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::Trajectory>();
   testEquality<vda5050::TypeSpecification>();
   testEquality<vda5050::ValueDataType>();
+  testEquality<vda5050::VehicleConfig>();
   testEquality<vda5050::Velocity>();
+  testEquality<vda5050::VersionInfo>();
   testEquality<vda5050::Visualization>();
   testEquality<vda5050::WheelDefinition>();
   testEquality<vda5050::WheelType>();

@@ -31,7 +31,7 @@ struct BatteryState {
   /// False: AGV is currently not charging
   bool charging = false;
 
-  /// [m] Range: [0.0 ... ∞)
+  /// [m] Range: [0.0 ... uint32.max]
   /// Estimated reach with current Stage of Charge
   std::optional<uint32_t> reach;
 

@@ -91,6 +91,7 @@ typename std::enable_if_t<std::is_same_v<AgvAction, vda5050::AgvAction>, AgvActi
   generate_to(gen.actionScopes);
   generate_to(gen.actionParameters);
   generate_to(gen.resultDescription);
+  generate_to(gen.blockingTypes);
 
   return gen;
 }
@@ -104,10 +105,10 @@ generate() {
   generate_to(gen.agvProtocolFeatures);
   generate_to(gen.header);
   generate_to(gen.loadSpecification);
-  generate_to(gen.localizationParameters);
   generate_to(gen.physicalParameters);
   generate_to(gen.protocolLimits);
   generate_to(gen.typeSpecification);
+  generate_to(gen.vehicleConfig);
 
   return gen;
 }
@@ -194,6 +195,26 @@ generate() {
   std::uniform_int_distribution dist(0, 2);
 
   return vda5050::ConnectionState(dist(RNG::get()));
+}
+
+template <typename Corridor>
+typename std::enable_if_t<std::is_same_v<Corridor, vda5050::Corridor>, Corridor> generate() {
+  vda5050::Corridor gen;
+
+  generate_to(gen.leftWidth);
+  generate_to(gen.rightWidth);
+  generate_to(gen.corridorRefPoint);
+
+  return gen;
+}
+
+template <typename CorridorRefPoint>
+typename std::enable_if_t<std::is_same_v<CorridorRefPoint, vda5050::CorridorRefPoint>,
+                          CorridorRefPoint>
+generate() {
+  std::uniform_int_distribution dist(0, 1);
+
+  return vda5050::CorridorRefPoint(dist(RNG::get()));
 }
 
 template <typename ControlPoint>
@@ -444,16 +465,23 @@ generate() {
   return gen;
 }
 
-template <typename LocalizationParameters>
-typename std::enable_if_t<std::is_same_v<LocalizationParameters, vda5050::LocalizationParameters>,
-                          LocalizationParameters>
-generate() {
-  vda5050::LocalizationParameters gen;
+template <typename Map>
+typename std::enable_if_t<std::is_same_v<Map, vda5050::Map>, Map> generate() {
+  vda5050::Map gen;
 
-  generate_to(gen.description);
-  generate_to(gen.type);
+  generate_to(gen.mapId);
+  generate_to(gen.mapVersion);
+  generate_to(gen.mapDescription);
+  generate_to(gen.mapStatus);
 
   return gen;
+}
+
+template <typename MapStatus>
+typename std::enable_if_t<std::is_same_v<MapStatus, vda5050::MapStatus>, MapStatus> generate() {
+  std::uniform_int_distribution dist(0, 1);
+
+  return vda5050::MapStatus(dist(RNG::get()));
 }
 
 template <typename MaxArrayLens>
@@ -493,6 +521,19 @@ generate() {
   generate_to(gen.msgLen);
   generate_to(gen.topicElemLen);
   generate_to(gen.topicSerialLen);
+
+  return gen;
+}
+
+template <typename Network>
+typename std::enable_if_t<std::is_same_v<Network, vda5050::Network>, Network> generate() {
+  vda5050::Network gen;
+
+  generate_to(gen.dnsServers);
+  generate_to(gen.ntpServers);
+  generate_to(gen.localIpAddress);
+  generate_to(gen.netmask);
+  generate_to(gen.defaultGateway);
 
   return gen;
 }
@@ -591,6 +632,8 @@ generate() {
   vda5050::PhysicalParameters gen;
 
   generate_to(gen.accelerationMax);
+  generate_to(gen.angularSpeedMax);
+  generate_to(gen.angularSpeedMin);
   generate_to(gen.decelerationMax);
   generate_to(gen.heightMax);
   generate_to(gen.heightMin);
@@ -743,6 +786,17 @@ generate() {
   return vda5050::ValueDataType(dist(RNG::get()));
 }
 
+template <typename VehicleConfig>
+typename std::enable_if_t<std::is_same_v<VehicleConfig, vda5050::VehicleConfig>, VehicleConfig>
+generate() {
+  vda5050::VehicleConfig gen;
+
+  generate_to(gen.versions);
+  generate_to(gen.network);
+
+  return gen;
+}
+
 template <typename Velocity>
 typename std::enable_if_t<std::is_same_v<Velocity, vda5050::Velocity>, Velocity> generate() {
   vda5050::Velocity gen;
@@ -750,6 +804,17 @@ typename std::enable_if_t<std::is_same_v<Velocity, vda5050::Velocity>, Velocity>
   generate_to(gen.omega);
   generate_to(gen.vx);
   generate_to(gen.vy);
+
+  return gen;
+}
+
+template <typename VersionInfo>
+typename std::enable_if_t<std::is_same_v<VersionInfo, vda5050::VersionInfo>, VersionInfo>
+generate() {
+  vda5050::VersionInfo gen;
+
+  generate_to(gen.key);
+  generate_to(gen.value);
 
   return gen;
 }

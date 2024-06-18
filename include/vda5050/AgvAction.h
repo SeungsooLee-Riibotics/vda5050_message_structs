@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: OLFL-1.3
 //
 
-#ifndef VDA5050_AGVACTION_H_
-#define VDA5050_AGVACTION_H_
+#ifndef INCLUDE_VDA5050_AGVACTION_H_
+#define INCLUDE_VDA5050_AGVACTION_H_
 
 #include <nlohmann/json.hpp>
 #include <optional>
@@ -15,6 +15,7 @@
 
 #include "vda5050/ActionParameterFactsheet.h"
 #include "vda5050/ActionScope.h"
+#include "vda5050/BlockingType.h"
 
 namespace vda5050 {
 struct AgvAction {
@@ -38,6 +39,10 @@ struct AgvAction {
   /// Free-form text: description of the resultDescription.
   std::optional<std::string> resultDescription;
 
+  /// Array of possible blocking types for defined action.
+  /// Enum {'NONE', 'SOFT', 'HARD'}
+  std::optional<std::vector<BlockingType>> blockingTypes;
+
   ///
   ///\brief Equality operator
   ///
@@ -50,6 +55,7 @@ struct AgvAction {
     if (this->actionScopes != other.actionScopes) return false;
     if (this->actionParameters != other.actionParameters) return false;
     if (this->resultDescription != other.resultDescription) return false;
+    if (this->blockingTypes != other.blockingTypes) return false;
 
     return true;
   }
@@ -68,4 +74,4 @@ void to_json(json &j, const AgvAction &d);
 void from_json(const json &j, AgvAction &d);
 
 }  // namespace vda5050
-#endif  // VDA5050_AGVACTION_H_
+#endif  // INCLUDE_VDA5050_AGVACTION_H_

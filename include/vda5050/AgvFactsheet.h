@@ -16,11 +16,11 @@
 #include "vda5050/AgvGeometry.h"
 #include "vda5050/Header_vda5050.h"
 #include "vda5050/LoadSpecification.h"
-#include "vda5050/LocalizationParameters.h"
 #include "vda5050/PhysicalParameters.h"
 #include "vda5050/ProtocolFeatures.h"
 #include "vda5050/ProtocolLimits.h"
 #include "vda5050/TypeSpecification.h"
+#include "vda5050/VehicleConfig.h"
 namespace vda5050 {
 
 struct AgvFactsheet {
@@ -45,8 +45,9 @@ struct AgvFactsheet {
   /// Abstract specification of load capabilities.
   LoadSpecification loadSpecification;
 
-  /// Detailed specification of localization.
-  LocalizationParameters localizationParameters;
+  /// Summary of current software and hardware versions on the vehicle and optional
+  /// network information.
+  std::optional<VehicleConfig> vehicleConfig;
 
   ///
   ///\brief Equality operator
@@ -62,7 +63,7 @@ struct AgvFactsheet {
     if (this->agvProtocolFeatures != other.agvProtocolFeatures) return false;
     if (this->agvGeometry != other.agvGeometry) return false;
     if (this->loadSpecification != other.loadSpecification) return false;
-    if (this->localizationParameters != other.localizationParameters) return false;
+    if (this->vehicleConfig != other.vehicleConfig) return false;
 
     return true;
   }

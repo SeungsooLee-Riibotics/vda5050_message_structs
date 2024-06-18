@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: OLFL-1.3
 //
 
-
 #ifndef INCLUDE_VDA5050_CONTROLPOINT_H_
 #define INCLUDE_VDA5050_CONTROLPOINT_H_
 
@@ -21,7 +20,7 @@ struct ControlPoint {
   /// Y coordinate described in the world coordinate system.
   double y = 0.0;
 
-  /// Range : (0 ... ∞)
+  /// Range : [0 ... float64.max]
   /// The weight with which this control point pulls on the curve. When not defined,
   /// the default will be 1.0.
   double weight = 1.0;
