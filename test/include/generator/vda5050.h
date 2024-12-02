@@ -145,11 +145,6 @@ typename std::enable_if_t<std::is_same_v<LoadSpecification, vda5050::LoadSpecifi
                           LoadSpecification>
 generate();
 
-template <typename LocalizationParameters>
-typename std::enable_if_t<std::is_same_v<LocalizationParameters, vda5050::LocalizationParameters>,
-                          LocalizationParameters>
-generate();
-
 template <typename MaxArrayLens>
 typename std::enable_if_t<std::is_same_v<MaxArrayLens, vda5050::MaxArrayLens>, MaxArrayLens>
 generate();

@@ -366,14 +366,20 @@ template <typename Json>
 typename std::enable_if_t<std::is_same_v<Json, vda5050::json>, Json> generate() {
   vda5050::json gen;
 
+  // Occasionally return null
+  static std::bernoulli_distribution null_dist(0.25);
+  if (null_dist(RNG::get())) {
+    return gen;
+  }
+
   gen["int"] = generate<int>();
   gen["string"] = generate<std::string>();
   gen["bool"] = generate<bool>();
   gen["array"] = generate<std::vector<int>>();
 
   // Arbitrary nesting
-  static std::bernoulli_distribution dist(0.66);
-  if (dist(RNG::get())) {
+  static std::bernoulli_distribution nest_dist(0.66);
+  if (nest_dist(RNG::get())) {
     gen["object"] = generate<vda5050::json>();
   }
 
@@ -440,18 +446,6 @@ generate() {
 
   generate_to(gen.loadPositions);
   generate_to(gen.loadSets);
-
-  return gen;
-}
-
-template <typename LocalizationParameters>
-typename std::enable_if_t<std::is_same_v<LocalizationParameters, vda5050::LocalizationParameters>,
-                          LocalizationParameters>
-generate() {
-  vda5050::LocalizationParameters gen;
-
-  generate_to(gen.description);
-  generate_to(gen.type);
 
   return gen;
 }

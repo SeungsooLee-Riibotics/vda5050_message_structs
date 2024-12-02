@@ -74,7 +74,6 @@ TEST_CASE("vda5050_message_structs - serialization", "[vda5050_message_structs][
   testSerialization<vda5050::LoadDimensions>();
   testSerialization<vda5050::LoadSet>();
   testSerialization<vda5050::LoadSpecification>();
-  testSerialization<vda5050::LocalizationParameters>();
   testSerialization<vda5050::MaxArrayLens>();
   testSerialization<vda5050::MaxStringLens>();
   testSerialization<vda5050::Node>();
@@ -137,7 +136,6 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::LoadDimensions>();
   testEquality<vda5050::LoadSet>();
   testEquality<vda5050::LoadSpecification>();
-  testEquality<vda5050::LocalizationParameters>();
   testEquality<vda5050::MaxArrayLens>();
   testEquality<vda5050::MaxStringLens>();
   testEquality<vda5050::Node>();

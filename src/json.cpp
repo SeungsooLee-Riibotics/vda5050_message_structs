@@ -1357,15 +1357,6 @@ void from_json(const json &j, ProtocolLimits &d) {
   d.timing = j.at("timing");
 }
 
-void to_json(json &j, const LocalizationParameters &d) {
-  j["type"] = d.type;
-  j["description"] = d.description;
-}
-void from_json(const json &j, LocalizationParameters &d) {
-  d.type = j.at("type");
-  d.description = j.at("description");
-}
-
 void to_json(json &j, const PolygonPoint &d) {
   j["x"] = d.x;
   j["y"] = d.y;
@@ -1399,7 +1390,7 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
                                      // option, since this is a required field
   j["loadSpecification"] = d.loadSpecification;  // See comment above
-  j["localizationParameters"] = d.localizationParameters;
+  j["localizationParameters"] = d.localizationParameters;  // See comment above
 }
 void from_json(const json &j, AgvFactsheet &d) {
   from_json(j, d.header);

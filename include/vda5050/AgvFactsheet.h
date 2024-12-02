@@ -16,7 +16,6 @@
 #include "vda5050/AgvGeometry.h"
 #include "vda5050/Header_vda5050.h"
 #include "vda5050/LoadSpecification.h"
-#include "vda5050/LocalizationParameters.h"
 #include "vda5050/PhysicalParameters.h"
 #include "vda5050/ProtocolFeatures.h"
 #include "vda5050/ProtocolLimits.h"
@@ -46,7 +45,7 @@ struct AgvFactsheet {
   LoadSpecification loadSpecification;
 
   /// Detailed specification of localization.
-  LocalizationParameters localizationParameters;
+  vda5050::json localizationParameters;
 
   ///
   ///\brief Equality operator
