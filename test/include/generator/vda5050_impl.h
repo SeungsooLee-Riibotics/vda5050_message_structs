@@ -101,7 +101,7 @@ generate() {
   vda5050::AgvFactsheet gen;
 
   generate_to(gen.agvGeometry);
-  generate_to(gen.agvProtocolFeatures);
+  generate_to(gen.protocolFeatures);
   generate_to(gen.header);
   generate_to(gen.loadSpecification);
   generate_to(gen.localizationParameters);

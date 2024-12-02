@@ -37,7 +37,7 @@ struct AgvFactsheet {
   ProtocolLimits protocolLimits;
 
   /// Supported features of VDA5050 protocol.
-  ProtocolFeatures agvProtocolFeatures;
+  ProtocolFeatures protocolFeatures;
 
   /// Detailed definition of AGV geometry.
   AgvGeometry agvGeometry;
@@ -59,7 +59,7 @@ struct AgvFactsheet {
     if (this->typeSpecification != other.typeSpecification) return false;
     if (this->physicalParameters != other.physicalParameters) return false;
     if (this->protocolLimits != other.protocolLimits) return false;
-    if (this->agvProtocolFeatures != other.agvProtocolFeatures) return false;
+    if (this->protocolFeatures != other.protocolFeatures) return false;
     if (this->agvGeometry != other.agvGeometry) return false;
     if (this->loadSpecification != other.loadSpecification) return false;
     if (this->localizationParameters != other.localizationParameters) return false;
