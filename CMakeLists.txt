@@ -20,7 +20,7 @@ if(CMAKE_GENERATOR MATCHES "Ninja")
 endif()
 
 project(vda5050_message_structs
-  VERSION 2.1.0.0
+  VERSION 2.1.0.1
   DESCRIPTION "This Project contains C++ structs representing the all VDA5050 message objects"
   LANGUAGES CXX)
 

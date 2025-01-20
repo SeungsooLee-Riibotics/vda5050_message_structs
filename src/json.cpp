@@ -1555,7 +1555,7 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["typeSpecification"] = d.typeSpecification;
   j["physicalParameters"] = d.physicalParameters;
   j["protocolLimits"] = d.protocolLimits;
-  j["agvProtocolFeatures"] = d.agvProtocolFeatures;
+  j["protocolFeatures"] = d.protocolFeatures;
   j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
                                      // option, since this is a required field
   j["loadSpecification"] = d.loadSpecification;  // See comment above
@@ -1568,7 +1568,7 @@ void from_json(const json &j, AgvFactsheet &d) {
   d.typeSpecification = j.at("typeSpecification");
   d.physicalParameters = j.at("physicalParameters");
   d.protocolLimits = j.at("protocolLimits");
-  d.agvProtocolFeatures = j.at("agvProtocolFeatures");
+  d.protocolFeatures = j.at("protocolFeatures");
   d.agvGeometry = j.at("agvGeometry");
   d.loadSpecification = j.at("loadSpecification");
   if (j.contains("vehicleConfig")) {
