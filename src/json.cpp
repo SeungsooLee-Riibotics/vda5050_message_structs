@@ -877,7 +877,9 @@ void to_json(json &j, const State &d) {
     j["loads"] =
         *d.loads;  // Keep possible "null" loads since they could represent an arbitrary load
   }
-  j["maps"] = d.maps;
+  if (d.maps.has_value()) {
+    j["maps"] = *d.maps;
+  }
   if (d.newBaseRequest.has_value()) {
     j["newBaseRequest"] = *d.newBaseRequest;
   }
@@ -918,7 +920,9 @@ void from_json(const json &j, State &d) {
   if (j.contains("loads")) {
     d.loads = j.at("loads").get<std::vector<Load>>();
   }
-  d.maps = j.at("maps");
+  if (j.contains("maps")) {
+    d.maps = j.at("maps").get<std::vector<Map>>();
+  }
   if (j.contains("newBaseRequest")) {
     d.newBaseRequest = j.at("newBaseRequest");
   }
@@ -1037,10 +1041,10 @@ void to_json(json &j, const Network &d) {
 }
 void from_json(const json &j, Network &d) {
   if (j.contains("dnsServers")) {
-    d.dnsServers = j.at("dnsServers");
+    d.dnsServers = j.at("dnsServers").get<std::vector<std::string>>();
   }
   if (j.contains("ntpServers")) {
-    d.ntpServers = j.at("ntpServers");
+    d.ntpServers = j.at("ntpServers").get<std::vector<std::string>>();
   }
   if (j.contains("localIpAddress")) {
     d.localIpAddress = j.at("localIpAddress");
@@ -1072,7 +1076,7 @@ void to_json(json &j, const VehicleConfig &d) {
 }
 void from_json(const json &j, VehicleConfig &d) {
   if (j.contains("versions")) {
-    d.versions = j.at("versions");
+    d.versions = j.at("versions").get<std::vector<VersionInfo>>();
   }
   if (j.contains("network")) {
     d.network = j.at("network");

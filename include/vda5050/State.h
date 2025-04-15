@@ -35,7 +35,7 @@ struct State {
   HeaderVDA5050 header;
 
   /// Array of map objects that are currently stored on the vehicle.
-  std::vector<Map> maps;
+  std::optional<std::vector<Map>> maps;
 
   /// Unique order identification of the current order or the
   /// previous finished order. The orderId is kept until a new
