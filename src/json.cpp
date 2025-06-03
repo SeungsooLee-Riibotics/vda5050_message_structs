@@ -20,13 +20,24 @@
 
 namespace vda5050 {
 
-constexpr const char *k_iso8601_fmt = "%Y-%m-%dT%H:%M:%SZ";
+constexpr const char *k_iso8601_fmt = "%Y-%m-%dT%H:%M:%S";
 
 void to_json(json &j, const HeaderVDA5050 &d) {
   j["headerId"] = d.headerId;
 
+  // Split timestamp into seconds and milliseconds (seconds for time_t, milliseconds for manual
+  // formatting)
+  auto seconds = std::chrono::duration_cast<std::chrono::seconds>(d.timestamp.time_since_epoch());
+  auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(d.timestamp.time_since_epoch() -
+                                                                  seconds);
+  if (ms.count() < 0) {
+    // Handle negative durations (i.e. before epoch)
+    ms += std::chrono::seconds(1);
+    seconds -= std::chrono::seconds(1);
+  }
+
   // Write ISO8601 UTC timestamp
-  auto tt = std::chrono::system_clock::to_time_t(d.timestamp);
+  auto tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::time_point(seconds));
   std::stringstream ss;
   std::tm tm = {};
 
@@ -39,9 +50,12 @@ void to_json(json &j, const HeaderVDA5050 &d) {
 #error "No gmtime_s or gmtime_r available!"
 #endif
 
+  // Write seconds
   ss << std::put_time(&tm, k_iso8601_fmt);
-  j["timestamp"] = ss.str();
+  // Write milliseconds manually
+  ss << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
 
+  j["timestamp"] = ss.str();
   j["version"] = d.version;
   j["manufacturer"] = d.manufacturer;
   j["serialNumber"] = d.serialNumber;
@@ -57,6 +71,26 @@ void from_json(const json &j, HeaderVDA5050 &d) {
   std::tm tm = {};
   ss >> std::get_time(&tm, k_iso8601_fmt);
 
+  // Read fractional part if present
+  std::chrono::milliseconds frac(0);
+  if (ss.peek() == '.') {
+    // Milliseconds are present
+    char sep;
+    uint32_t count = 0;
+    ss >> sep >> count;
+
+    // Convert fractional part to seconds as float
+    float frac_float = static_cast<float>(count);
+    while (frac_float >= 1.0f) {
+      frac_float /= 10.0f;
+    }
+    frac = std::chrono::milliseconds(static_cast<int64_t>(frac_float * 1000.0f));
+  }
+
+  if (ss.peek() == 'Z') {
+    ss.get();
+  }
+
   // Convert tm to timestamp
 #if VDA5050_MESSAGE_STRUCTS_HAS_TIMEGM
   d.timestamp = timestampT::clock::from_time_t(timegm(&tm));
@@ -65,6 +99,9 @@ void from_json(const json &j, HeaderVDA5050 &d) {
 #else
 #error "No timegm or _mkgmtime available!"
 #endif
+
+  // Add fractional part to timestamp
+  d.timestamp += std::chrono::duration_cast<timestampT::duration>(frac);
 
   d.version = j.at("version");
   d.manufacturer = j.at("manufacturer");
@@ -1389,7 +1426,7 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["protocolFeatures"] = d.protocolFeatures;
   j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
                                      // option, since this is a required field
-  j["loadSpecification"] = d.loadSpecification;  // See comment above
+  j["loadSpecification"] = d.loadSpecification;            // See comment above
   j["localizationParameters"] = d.localizationParameters;  // See comment above
 }
 void from_json(const json &j, AgvFactsheet &d) {
