@@ -80,7 +80,7 @@ template <typename Timestamp>
 typename std::enable_if_t<std::is_same_v<Timestamp, std::chrono::system_clock::time_point>,
                           Timestamp>
 generate() {
-  return std::chrono::system_clock::time_point(std::chrono::seconds(generate<uint32_t>()));
+  return std::chrono::system_clock::time_point(std::chrono::milliseconds(generate<int64_t>()));
 }
 
 template <typename T> void generate_to(T &to) { to = generate<T>(); }
