@@ -793,6 +793,11 @@ generate() {
 
   generate_to(gen.versions);
   generate_to(gen.network);
+  if (gen.network.has_value() && !gen.network->dnsServers.has_value() &&
+      !gen.network->ntpServers.has_value() && !gen.network->localIpAddress.has_value() &&
+      !gen.network->netmask.has_value() && !gen.network->defaultGateway.has_value()) {
+    gen.network = std::nullopt;
+  }
 
   return gen;
 }

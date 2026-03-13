@@ -176,3 +176,52 @@ TEST_CASE("vda5050_message_structs - equality", "[vda5050_message_structs][equal
   testEquality<vda5050::WheelDefinition>();
   testEquality<vda5050::WheelType>();
 }
+
+TEST_CASE("vda5050_message_structs - empty optional network is omitted",
+          "[vda5050_message_structs][serialization]") {
+  vda5050::VehicleConfig vehicle_config;
+  vehicle_config.versions = std::vector<vda5050::VersionInfo>{{"factsheetIndex", "1"}};
+  vehicle_config.network = vda5050::Network{};
+
+  const auto serialized_vehicle_config = nlohmann::json(vehicle_config);
+  REQUIRE(serialized_vehicle_config.contains("versions"));
+  REQUIRE_FALSE(serialized_vehicle_config.contains("network"));
+
+  vda5050::AgvFactsheet factsheet;
+  factsheet.vehicleConfig = vehicle_config;
+
+  const auto serialized_factsheet = nlohmann::json(factsheet);
+  REQUIRE(serialized_factsheet.contains("vehicleConfig"));
+  REQUIRE(serialized_factsheet.at("vehicleConfig").contains("versions"));
+  REQUIRE_FALSE(serialized_factsheet.at("vehicleConfig").contains("network"));
+}
+
+TEST_CASE("vda5050_message_structs - required optional-only objects serialize as empty objects",
+          "[vda5050_message_structs][serialization]") {
+  const auto serialized_agv_geometry = nlohmann::json(vda5050::AgvGeometry{});
+  REQUIRE(serialized_agv_geometry.is_object());
+  REQUIRE(serialized_agv_geometry.empty());
+
+  const auto serialized_load_specification = nlohmann::json(vda5050::LoadSpecification{});
+  REQUIRE(serialized_load_specification.is_object());
+  REQUIRE(serialized_load_specification.empty());
+
+  const auto serialized_max_string_lens = nlohmann::json(vda5050::MaxStringLens{});
+  REQUIRE(serialized_max_string_lens.is_object());
+  REQUIRE(serialized_max_string_lens.empty());
+
+  const auto serialized_max_array_lens = nlohmann::json(vda5050::MaxArrayLens{});
+  REQUIRE(serialized_max_array_lens.is_object());
+  REQUIRE(serialized_max_array_lens.empty());
+
+  vda5050::AgvFactsheet factsheet;
+  const auto serialized_factsheet = nlohmann::json(factsheet);
+  REQUIRE(serialized_factsheet.at("agvGeometry").is_object());
+  REQUIRE(serialized_factsheet.at("agvGeometry").empty());
+  REQUIRE(serialized_factsheet.at("loadSpecification").is_object());
+  REQUIRE(serialized_factsheet.at("loadSpecification").empty());
+  REQUIRE(serialized_factsheet.at("protocolLimits").at("maxStringLens").is_object());
+  REQUIRE(serialized_factsheet.at("protocolLimits").at("maxStringLens").empty());
+  REQUIRE(serialized_factsheet.at("protocolLimits").at("maxArrayLens").is_object());
+  REQUIRE(serialized_factsheet.at("protocolLimits").at("maxArrayLens").empty());
+}

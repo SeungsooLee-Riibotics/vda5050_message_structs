@@ -1108,7 +1108,10 @@ void to_json(json &j, const VehicleConfig &d) {
     j["versions"] = *d.versions;
   }
   if (d.network.has_value()) {
-    j["network"] = *d.network;
+    json network_json = *d.network;
+    if (!network_json.is_null()) {
+      j["network"] = std::move(network_json);
+    }
   }
 }
 void from_json(const json &j, VehicleConfig &d) {
@@ -1204,6 +1207,7 @@ void from_json(const json &j, WheelDefinition &d) {
 }
 
 void to_json(json &j, const AgvGeometry &d) {
+  j = json::object();
   if (d.wheelDefinitions.has_value()) {
     j["wheelDefinitions"] = *d.wheelDefinitions;
   }
@@ -1227,6 +1231,7 @@ void from_json(const json &j, AgvGeometry &d) {
 }
 
 void to_json(json &j, const LoadSpecification &d) {
+  j = json::object();
   if (d.loadPositions.has_value()) {
     j["loadPositions"] = *d.loadPositions;
   }
@@ -1244,6 +1249,7 @@ void from_json(const json &j, LoadSpecification &d) {
 }
 
 void to_json(json &j, const MaxStringLens &d) {
+  j = json::object();
   if (d.msgLen.has_value()) {
     j["msgLen"] = *d.msgLen;
   }
@@ -1291,6 +1297,7 @@ void from_json(const json &j, MaxStringLens &d) {
 }
 
 void to_json(json &j, const MaxArrayLens &d) {
+  j = json::object();
   if (d.orderNodes.has_value()) {
     j["order.nodes"] = *d.orderNodes;
   }
@@ -1597,9 +1604,8 @@ void to_json(json &j, const AgvFactsheet &d) {
   j["physicalParameters"] = d.physicalParameters;
   j["protocolLimits"] = d.protocolLimits;
   j["protocolFeatures"] = d.protocolFeatures;
-  j["agvGeometry"] = d.agvGeometry;  // Can be null if the object is {}, not setting it is no
-                                     // option, since this is a required field
-  j["loadSpecification"] = d.loadSpecification;  // See comment above
+  j["agvGeometry"] = d.agvGeometry;
+  j["loadSpecification"] = d.loadSpecification;
   if (d.vehicleConfig.has_value()) {
     j["vehicleConfig"] = *d.vehicleConfig;
   }
